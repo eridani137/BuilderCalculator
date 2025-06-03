@@ -7,9 +7,9 @@ namespace Calculators.KZH_04
 {
     public class CalculateResult : BaseCalculateResult
     {
-        private readonly CheckingCrackAndOpeningWidth _calculator;
+        private readonly Calculator _calculator;
 
-        public CalculateResult(CheckingCrackAndOpeningWidth calculator)
+        public CalculateResult(Calculator calculator)
         {
             _calculator = calculator;
         }

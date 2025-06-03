@@ -1,10 +1,23 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Calculators.Shared.Extensions;
+using Spectre.Console;
 
 namespace Calculators.Shared
 {
     public abstract class BaseBuilderCalculator
     {
+        public void Run()
+        {
+            EnteringParameters();
+            var result = Calculate();
+            result?.PrintParameters();
+            result?.PrintSummary();
+
+            AnsiConsole.MarkupLine("Нажмите любую клавишу для выхода...".MarkupPrimaryColor());
+            Console.ReadKey(false);
+        }
+        
         public virtual void EnteringParameters()
         {
             var type = GetType();
