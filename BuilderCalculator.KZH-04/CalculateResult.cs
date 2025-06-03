@@ -1,4 +1,5 @@
-﻿using Calculators.Shared;
+﻿using System.Reflection;
+using Calculators.Shared;
 using Calculators.Shared.Extensions;
 using Spectre.Console;
 
@@ -14,34 +15,58 @@ namespace Calculators.KZH_04
         }
 
         // Геометрические характеристики
-        public double I_red { get; set; } // Приведенный момент инерции, см⁴
-        public double W_red { get; set; } // Приведенный момент сопротивления, см³
-        public double W_pl { get; set; } // Пластический момент сопротивления, см³
-        public double ex { get; set; } // Эксцентриситет, см
-        public double Mcrc { get; set; } // Момент трещинообразования, кг·см
+        [Parameter("Приведенный момент инерции, см⁴")] public double I_red { get; set; }
+        [Parameter("Приведенный момент сопротивления, см³")] public double W_red { get; set; }
+        [Parameter("Пластический момент сопротивления, см³")] public double W_pl { get; set; }
+        [Parameter("Эксцентриситет, см")] public double ex { get; set; }
+        [Parameter("Момент трещинообразования, кг·см")] public double Mcrc { get; set; }
 
         // Деформационные характеристики
-        public double Eb_red { get; set; } // Приведенный модуль упругости бетона, кг/см²
-        public double alpha_s1 { get; set; } // Отношение модулей упругости
-        public double xM { get; set; } // Высота сжатой зоны, см
-        public double xm { get; set; } // Высота сжатой зоны с учетом нагрузок, см
-        public double A_red { get; set; } // Приведенная площадь, см²
-        public double St_red { get; set; } // Статический момент, см³
-        public double yc { get; set; } // Расстояние до центра тяжести, см
-        public double xt { get; set; } // Высота растянутой зоны, см
+        [Parameter("Приведенный модуль упругости бетона, кг/см²")] public double Eb_red { get; set; }
+        [Parameter("Отношение модулей упругости")] public double alpha_s1 { get; set; }
+        [Parameter("Высота сжатой зоны, см")] public double xM { get; set; }
+        [Parameter("Высота сжатой зоны с учетом нагрузок, см")] public double xm { get; set; }
+        [Parameter("Приведенная площадь, см²")] public double A_red { get; set; }
+        [Parameter("Статический момент, см³")] public double St_red { get; set; }
+        [Parameter("Расстояние до центра тяжести, см")] public double yc { get; set; }
+        [Parameter("Высота растянутой зоны, см")] public double xt { get; set; }
 
         // Напряжения
-        public double sigma_s { get; set; } // Напряжение в арматуре, кг/см²
-        public double sigma_s_crc { get; set; } // Напряжение в арматуре при трещинообразовании, кг/см²
-        public double psi_s { get; set; } // Коэффициент
+        [Parameter("Напряжение в арматуре, кг/см²")] public double sigma_s { get; set; }
+        [Parameter("Напряжение в арматуре при трещинообразовании, кг/см²")] public double sigma_s_crc { get; set; }
+        [Parameter("Коэффициент")] public double psi_s { get; set; }
 
         // Ширины раскрытия трещин
-        public double acrc1 { get; set; } // Ширина раскрытия от длительных нагрузок, см
-        public double acrc2 { get; set; } // Ширина раскрытия от полных нагрузок, см
-        public double acrc3 { get; set; } // Ширина раскрытия от кратковременных длительных нагрузок, см
+        [Parameter("Ширина раскрытия от длительных нагрузок, см")] public double acrc1 { get; set; }
+        [Parameter("Ширина раскрытия от полных нагрузок, см")] public double acrc2 { get; set; }
+        [Parameter("Ширина раскрытия от кратковременных длительных нагрузок, см")] public double acrc3 { get; set; }
 
         // Результат проверки
-        public bool Result { get; set; } // true - прочность обеспечена, false - не обеспечена
+        public bool Result { get; set; }
+        
+        public override void PrintParameters()
+        {
+            var type = GetType();
+            var properties = type
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            
+            var table = new Table();
+            
+            table.AddColumn("Параметр");
+            table.AddColumn("Обозначение");
+            table.AddColumn("Значение");
+
+            foreach (var prop in properties)
+            {
+                var attr = prop.GetCustomAttribute<ParameterAttribute>();
+                if (attr == null || !prop.CanRead) continue;
+                var value = prop.GetValue(this);
+                
+                table.AddRow(attr.Name, prop.Name, value.ToString());
+            }
+
+            AnsiConsole.Write(table);
+        }
 
         public override void PrintSummary()
         {
