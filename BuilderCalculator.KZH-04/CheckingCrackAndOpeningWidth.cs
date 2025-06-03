@@ -1,50 +1,31 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using Calculators.Shared;
 using Calculators.Shared.Enums;
+using Calculators.Shared.Extensions;
+using Spectre.Console;
 
 namespace Calculators.KZH_04
 {
-    public class CheckingCrackAndOpeningWidth : IBuilderCalculator
+    public class CheckingCrackAndOpeningWidth : BaseBuilderCalculator
     {
-        // Внешние усилия
-        
-        /// <summary>
-        /// Момент, кг*см
-        /// </summary>
-        public double M { get; set; }
-        
-        /// <summary>
-        /// Длительный момент, кг*см
-        /// </summary>
-        public double Ml { get; set; }
-        
-        /// <summary>
-        /// Продольная сила, кг (опционально)
-        /// </summary>
-        public double N { get; set; }
-        
-        /// <summary>
-        /// Учет продольной силы
-        /// </summary>
-        public bool IncludeLongitudinalForce { get; set; }
+        [Parameter("Момент от полной нагрузки кг·см (1 тс·м = 105 кг·см)")]
+        public double M { get; set; } = 27.70 * 1e5;
 
+        [Parameter("Момент от постоянной и длительной нагрузки кг·см")]
+        public double Ml { get; set; } = 25.00 * 1e5;
         
-        // Геометрические характеристики
+        public bool IncludeLongitudinalForce { get; set; } // TODO
         
-        /// <summary>
-        /// Ширина сечения, см
-        /// </summary>
-        public double b { get; set; }
+        public double N { get; set; } // TODO
         
-        /// <summary>
-        /// Высота сечения, см
-        /// </summary>
-        public double h { get; set; }
-        
-        /// <summary>
-        /// Защитный слой до растянутой арматуры, см
-        /// </summary>
-        public double a { get; set; }
+        [Parameter("Ширина сечения см")] public double b { get; set; } = 150.0;
+
+        [Parameter("Высота сечения см")] public double h { get; set; } = 60.0;
+
+        [Parameter("Защитный слой бетона растянутой зоны см")]
+        public double a { get; set; } = 5.0;
         
         /// <summary>
         /// Рабочая высота, см
@@ -247,9 +228,8 @@ namespace Calculators.KZH_04
         /// Результат: true - прочность обеспечена, false - нет
         /// </summary>
         public bool Result { get; private set; }
-        
-        
-        public void Calculate()
+
+        public override void Calculate()
         {
             // Шаг 1: Расчет момента образования трещин
             double alpha = Es / Eb; // Отношение модулей упругости
@@ -318,6 +298,32 @@ namespace Calculators.KZH_04
             e_x = 0; // Эксцентриситет не учитывается
             x_M = x_m; // Высота сжатой зоны для M совпадает с x_m
             sigma_s_crc = 0; // Не используется отдельно в данном расчете
+        }
+
+        public override void PrintResults()
+        {
+            AnsiConsole.MarkupLine("Результаты расчета:".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"I_red: {I_red:F2} см⁴".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"W_red: {W_red:F2} см³".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"W_pl: {W_pl:F2} см³".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"e_x: {e_x:F2} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"M_crc: {M_crc:F2} кг*см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"Eb_red: {Eb_red:F2} кг/см²".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"alpha_s1: {alpha_s1:F2}".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"x_M: {x_M:F2} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"x_m: {x_m:F2} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"A_red: {A_red:F2} см²".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"S_t_red: {S_t_red:F2} см³".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"y_c: {y_c:F2} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"I_red_cracked: {I_red_cracked:F2} см⁴".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"x_t: {x_t:F2} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"sigma_s: {sigma_s:F2} кг/см²".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"sigma_s_crc: {sigma_s_crc:F2} кг/см²".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"psi_s: {psi_s:F2}".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"a_crc1: {a_crc1:F4} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"a_crc2: {a_crc2:F4} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"a_crc3: {a_crc3:F4} см".EscapeMarkup().MarkupPrimaryColor());
+            AnsiConsole.MarkupLine($"Результат: {(Result ? "Прочность обеспечена" : "Прочность не обеспечена")}".EscapeMarkup().MarkupPrimaryColor());
         }
     }
 }

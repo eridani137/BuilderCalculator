@@ -56,12 +56,13 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="BaseBuilderCalculator.cs" />
         <Compile Include="Enums\ArmatureClass.cs" />
         <Compile Include="Enums\ConcreteClass.cs" />
         <Compile Include="Extensions\ArmatureExtensions.cs" />
         <Compile Include="Extensions\ConcreteExtensions.cs" />
-        <Compile Include="Extensions\InputExtensions.cs" />
-        <Compile Include="IBuilderCalculator.cs" />
+        <Compile Include="Extensions\Extensions.cs" />
+        <Compile Include="ParameterAttribute.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
