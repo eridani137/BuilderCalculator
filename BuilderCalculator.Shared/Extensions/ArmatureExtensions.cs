@@ -9,7 +9,7 @@ namespace Calculators.Shared.Extensions
         /// Возвращает модуль упругости арматуры, кг/см²
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static double GetElasticityModule(ArmatureClass armatureClass)
+        public static double GetElasticityModule(this ArmatureClass armatureClass)
         {
             switch (armatureClass)
             {
