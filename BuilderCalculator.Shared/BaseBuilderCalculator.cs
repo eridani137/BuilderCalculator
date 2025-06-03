@@ -21,8 +21,6 @@ namespace Calculators.Shared
             }
         }
 
-        public abstract void Calculate();
-        
-        public abstract void PrintResults();
+        public abstract BaseCalculateResult Calculate();
     }
 }

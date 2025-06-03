@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using Calculators.Shared;
 using Calculators.Shared.Enums;
 using Calculators.Shared.Extensions;
@@ -10,326 +8,305 @@ namespace Calculators.KZH_04
 {
     public class CheckingCrackAndOpeningWidth : BaseBuilderCalculator
     {
+        public CheckingCrackAndOpeningWidth()
+        {
+            CalculateResult = new CalculateResult(this);
+        }
+        
+        
+        // Внешние усилия
+        
         [Parameter("Изгибающий момент, кг·см")]
-        private double M { get; set; } = 27.70 * 1e5;
+        public double M { get; set; } = 27.70e5;
 
-        [Parameter("Момент от длительных нагрузок, кг·см")]
-        private double Ml { get; set; } = 25.00 * 1e5;
+        [Parameter("Изгибающий момент от длительных нагрузок, кг·см")]
+        public double Ml { get; set; } = 25.00e5;
+
+        [Parameter("Продольная сила, кг (если учитывается)")]
+        public double N { get; set; } = 20.00e3;
+
+        [Parameter("Продольная сила от длительных нагрузок, кг (если учитывается)")]
+        public double Nl { get; set; } = 18.00e3;
+
+        [Parameter("Учет продольной силы")] 
+        public bool ConsiderAxialForce { get; set; } = true;
         
-        [Parameter("Продольная сила, кг")]
-        public double N { get; set; }
         
-        [Parameter("Учитывать продольную силу?")]
-        public bool ConsiderLongitudinalForce { get; set; }
+        // Геометрические характеристики
         
         [Parameter("Ширина сечения, см")] 
-        private double b { get; set; } = 150.0;
+        public double b { get; set; } = 150.0;
 
         [Parameter("Высота сечения, см")] 
-        private double h { get; set; } = 60.0;
+        public double h { get; set; } = 60.0;
 
-        [Parameter("Защитный слой растянутой арматуры, см")]
-        private double a { get; set; } = 5.0;
-        
-        private double aPrime { get; set; }
-        
-        /// <summary>
-        /// Рабочая высота, см
-        /// </summary>
-        public double h0 { get; set; }
-        
-        /// <summary>
-        /// Защитный слой до сжатой арматуры, см
-        /// </summary>
-        public double a_prime { get; set; }
-        
-        /// <summary>
-        /// Рабочая высота для сжатой арматуры, см
-        /// </summary>
-        public double h0_prime { get; set; }
+        [Parameter("Расстояние до центра растянутой арматуры, см")]
+        public double a { get; set; } = 5.0;
 
+        [Parameter("Расстояние до центра сжатой арматуры, см")]
+        public double a_prime { get; set; } = 5.0;
+
+        [Parameter("Рабочая высота сечения, см")]
+        public double h0 { get; set; } = 55.0;
+
+        [Parameter("Расстояние до центра сжатой арматуры от сжатой грани, см")]
+        public double h0_prime { get; set; } = 55.0;
+
+        [Parameter("Площадь растянутой арматуры, см²")]
+        public double As { get; set; } = 11.31;
+
+        [Parameter("Площадь сжатой арматуры, см²")]
+        public double As_prime { get; set; } = 2.50;
+
+        [Parameter("Диаметр арматуры, см")] 
+        public double ds { get; set; } = 1.2;
         
-        // Характеристики арматуры
         
-        /// <summary>
-        /// Площадь растянутой арматуры, см²
-        /// </summary>
-        public double As { get; set; }
-        
-        /// <summary>
-        /// Площадь сжатой арматуры, см²
-        /// </summary>
-        public double As_prime { get; set; }
-        
-        /// <summary>
-        /// Диаметр арматуры, см
-        /// </summary>
-        public double ds { get; set; }
-        
-        /// <summary>
-        /// Класс арматуры
-        /// </summary>
-        public ArmatureClass ArmatureClass { get; set; }
+        // Характеристики материалов
+
+        [Parameter("Класс бетона")] 
+        public ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B15;
+
+        [Parameter("Класс арматуры")]
+        public ReinforcementClass ReinforcementClass { get; set; } = ReinforcementClass.A500;
 
         
-        // Характеристики бетона
-        
-        /// <summary>
-        /// Класс бетона
-        /// </summary>
-        public ConcreteClass ConcreteClass { get; set; }
-        
-        /// <summary>
-        /// Расчетное сопротивление растяжению, кг/см²
-        /// </summary>
-        public double Rbt_ser { get; set; }
-        
-        /// <summary>
-        /// Расчетное сопротивление сжатию, кг/см²
-        /// </summary>
-        public double Rb_ser { get; set; }
-        
-        /// <summary>
-        /// Модуль упругости бетона, кг/см²
-        /// </summary>
-        public double Eb { get; set; }
-        
-        /// <summary>
-        /// Модуль упругости арматуры, кг/см²
-        /// </summary>
-        public double Es { get; set; }
+        // Ограничения
 
-        
-        // Коэффициенты и предельные значения
-        
-        /// <summary>
-        /// Коэффициент phi2
-        /// </summary>
-        public double phi2 { get; set; }
-        
-        /// <summary>
-        /// Коэффициент phi3
-        /// </summary>
-        public double phi3 { get; set; }
-        
-        /// <summary>
-        /// Условная деформация
-        /// </summary>
-        public double epsilon_b1_red { get; set; }
-        
-        /// <summary>
-        /// Предельная ширина раскрытия трещин, см
-        /// </summary>
-        public double a_crc_ult { get; set; }
-        
-        /// <summary>
-        /// Предельная ширина для длительных нагрузок, см
-        /// </summary>
-        public double a_crc_ult_l { get; set; }
+        [Parameter("Предельная ширина раскрытия трещин, см")]
+        public double acrc_ult { get; set; } = 0.0400;
 
+        [Parameter("Предельная ширина раскрытия трещин от длительных нагрузок, см")]
+        public double acrc_ult_l { get; set; } = 0.0300;
         
-        // Вычисляемые свойства
         
-        /// <summary>
-        /// Приведенный момент инерции, см⁴
-        /// </summary>
-        public double I_red { get; private set; }
+        // Коэффициенты
         
-        /// <summary>
-        /// Приведенный момент сопротивления, см³
-        /// </summary>
-        public double W_red { get; private set; }
+        public double phi2 { get; set; } = 0.5;
         
-        /// <summary>
-        /// Пластический момент сопротивления, см³
-        /// </summary>
-        public double W_pl { get; private set; }
+        public double phi3 { get; set; } = 1.0;
         
-        /// <summary>
-        /// Эксцентриситет (не используется в примере) // TODO
-        /// </summary>
-        public double e_x { get; private set; }
+        public double epsilon_b1_red { get; set; } = 0.0015;
         
-        /// <summary>
-        /// Момент образования трещин, кг*см
-        /// </summary>
-        public double M_crc { get; private set; }
-        
-        /// <summary>
-        /// Приведенный модуль упругости бетона, кг/см²
-        /// </summary>
-        public double Eb_red { get; private set; }
-        
-        /// <summary>
-        /// Отношение модулей упругости
-        /// </summary>
-        public double alpha_s1 { get; private set; }
-        
-        /// <summary>
-        /// Высота сжатой зоны для M (не используется отдельно) // TODO
-        /// </summary>
-        public double x_M { get; private set; }
-        
-        /// <summary>
-        /// Высота сжатой зоны, см
-        /// </summary>
-        public double x_m { get; private set; } 
-        
-        /// <summary>
-        /// Приведенная площадь сечения, см²
-        /// </summary>
-        public double A_red { get; private set; }
-        
-        /// <summary>
-        /// Приведенный статический момент, см³
-        /// </summary>
-        public double S_t_red { get; private set; }
-        
-        /// <summary>
-        /// Положение нейтральной оси, см
-        /// </summary>
-        public double y_c { get; private set; }
-        
-        /// <summary>
-        /// Приведенный момент инерции с трещинами, см⁴
-        /// </summary>
-        public double I_red_cracked { get; private set; }
-        
-        /// <summary>
-        /// Высота растянутой зоны, см
-        /// </summary>
-        public double x_t { get; private set; }
-        
-        /// <summary>
-        /// Напряжение в арматуре, кг/см²
-        /// </summary>
-        public double sigma_s { get; private set; }
-        
-        /// <summary>
-        /// Напряжение в арматуре при трещинах (не используется отдельно) // TODO
-        /// </summary>
-        public double sigma_s_crc { get; private set; }
-        
-        /// <summary>
-        /// Коэффициент учета трещин
-        /// </summary>
-        public double psi_s { get; private set; }
-        
-        /// <summary>
-        /// Ширина раскрытия трещин (длительная), см
-        /// </summary>
-        public double a_crc1 { get; private set; }
-        
-        /// <summary>
-        /// Ширина раскрытия трещин (полная), см
-        /// </summary>
-        public double a_crc2 { get; private set; }
-        
-        /// <summary>
-        /// Ширина раскрытия трещин (непродолжительная), см
-        /// </summary>
-        public double a_crc3 { get; private set; }
-        
-        /// <summary>
-        /// Результат: true - прочность обеспечена, false - нет
-        /// </summary>
-        public bool Result { get; private set; }
+        public CalculateResult CalculateResult { get; set; }
 
-        public override void Calculate()
+        public override BaseCalculateResult Calculate()
         {
-            // Шаг 1: Расчет момента образования трещин
-            double alpha = Es / Eb; // Отношение модулей упругости
-            double A = b * h; // Площадь сечения
-            A_red = A + As * alpha + As_prime * alpha; // Приведенная площадь
-            S_t_red = A * h / 2 + As * a * alpha + As_prime * h0_prime * alpha; // Приведенный статический момент
-            double y_t = S_t_red / A_red; // Положение центра тяжести
-            double I = (b * Math.Pow(h, 3)) / 12 + A * Math.Pow(h / 2 - y_t, 2); // Момент инерции бетона
-            double I_s = As * Math.Pow(y_t - a, 2); // Момент инерции растянутой арматуры
-            double I_s_prime = As_prime * Math.Pow(h0_prime - y_t, 2); // Момент инерции сжатой арматуры
-            I_red = I + I_s * alpha + I_s_prime * alpha; // Приведенный момент инерции
-            W_red = I_red / y_t; // Приведенный момент сопротивления
-            W_pl = 1.3 * W_red; // Пластический момент сопротивления
-            M_crc = Rbt_ser * W_pl; // Момент образования трещин
-
-            // Проверка на образование трещин
-            if (M > M_crc)
+            try
             {
-                // Трещины образуются, расчет ширины раскрытия
-                Eb_red = Rb_ser / epsilon_b1_red; // Приведенный модуль упругости бетона
-                alpha_s1 = Es / Eb_red; // Отношение модулей для трещин
-                double alpha_s2 = alpha_s1; // В данном случае alpha_s2 = alpha_s1
-                double mu_s = As / (b * h0); // Коэффициент армирования растянутой зоны
-                double mu_s_prime = As_prime / (b * h0); // Коэффициент армирования сжатой зоны
-                x_m = h0 * (Math.Sqrt(Math.Pow(mu_s * alpha_s2 + mu_s_prime * alpha_s1, 2) +
-                                      2 * (mu_s * alpha_s2 + mu_s_prime * alpha_s1 * a_prime / h0)) -
-                            (mu_s * alpha_s2 + mu_s_prime * alpha_s1)); // Высота сжатой зоны
-                y_c = x_m; // Положение нейтральной оси
-                I_s = As * Math.Pow(h0 - y_c, 2); // Момент инерции растянутой арматуры
-                I_s_prime = As_prime * Math.Pow(y_c - a_prime, 2); // Момент инерции сжатой арматуры
-                double I_b = (b * Math.Pow(y_c, 3)) / 12 + y_c * b * Math.Pow(y_c / 2, 2); // Момент инерции бетона
-                I_red_cracked = I_b + I_s * alpha_s2 + I_s_prime * alpha_s1; // Приведенный момент инерции с трещинами
-                x_t = h - x_m; // Высота растянутой зоны
-                if (x_t >= 0.5 * h) x_t = 0.5 * h; // Ограничение высоты растянутой зоны
-                double A_t = b * x_t; // Площадь растянутой зоны
-                double l_s = 0.5 * (A_t / As) * ds; // Длина зоны растяжения
-                if (l_s >= 40 * ds) l_s = 40 * ds; // Ограничение по диаметру
-                if (l_s >= 40) l_s = 40; // Ограничение длины
+                CalculateCrackingMoment();
 
-                // Расчет для длительного момента Ml
-                sigma_s = (Ml * (h0 - y_c) / I_red_cracked) * alpha_s1; // Напряжение в арматуре
-                psi_s = 1 - 0.8 * (M_crc / Ml); // Коэффициент учета трещин
-                double phi1 = 1.4; // Коэффициент для длительных нагрузок
-                a_crc1 = phi1 * phi2 * phi3 * psi_s * (sigma_s / Es) * l_s; // Ширина раскрытия (длительная)
+                if (M > CalculateResult.Mcrc)
+                {
+                    CalculateCrackWidth();
+                    CheckConditions();
+                }
+                else
+                {
+                    CalculateResult.Result = true; // Трещины не образуются
+                }
+                
+                return CalculateResult;
+            }
+            catch (Exception e)
+            {
+                AnsiConsole.WriteException(e);
+                return null;
+            }
+        }
 
-                // Расчет для непродолжительного действия (Ml)
-                phi1 = 1.0; // Коэффициент для непродолжительных нагрузок
-                a_crc3 = phi1 * phi2 * phi3 * psi_s * (sigma_s / Es) * l_s; // Ширина раскрытия (непродолжительная)
-
-                // Расчет для полного момента M
-                sigma_s = (M * (h0 - y_c) / I_red_cracked) * alpha_s1; // Напряжение в арматуре
-                psi_s = 1 - 0.8 * (M_crc / M); // Коэффициент учета трещин
-                a_crc2 = phi1 * phi2 * phi3 * psi_s * (sigma_s / Es) * l_s; // Ширина раскрытия (полная)
-
-                // Проверка условий прочности
-                double a_crc = a_crc1 + a_crc2 - a_crc3; // Суммарная ширина раскрытия
-                Result = a_crc1 <= a_crc_ult_l && a_crc <= a_crc_ult; // True - прочность обеспечена
+        /// <summary>
+        /// Расчет момента образования трещин
+        /// </summary>
+        private void CalculateCrackingMoment()
+        {
+            double Es = ReinforcementClass.GetElasticityModule();
+            
+            double alpha = Es / ConcreteClass.GetElasticityModule();
+            double A = b * h;
+            
+            double A_red_temp = A + As * alpha + As_prime * alpha;
+            double St_red_temp = A * h / 2 + As * a * alpha + As_prime * h0_prime * alpha;
+            double yt = St_red_temp / A_red_temp;
+            
+            double I_concrete = b * Math.Pow(h, 3) / 12 + A * Math.Pow(h / 2 - yt, 2);
+            double Is = As * Math.Pow(yt - a, 2);
+            double Is_prime = As_prime * Math.Pow(h0_prime - yt, 2);
+            
+            CalculateResult.I_red = I_concrete + Is * alpha + Is_prime * alpha;
+            CalculateResult.W_red = CalculateResult.I_red / yt;
+            CalculateResult.W_pl = 1.3 * CalculateResult.W_red;
+            
+            if (ConsiderAxialForce)
+            {
+                CalculateResult.ex = CalculateResult.W_red / A_red_temp;
+                CalculateResult.Mcrc = ConcreteClass.GetStretchResistance() * CalculateResult.W_pl + N * CalculateResult.ex;
             }
             else
             {
-                // Трещины не образуются, Прочность обеспечена
-                Result = true;
+                CalculateResult.Mcrc = ConcreteClass.GetStretchResistance() * CalculateResult.W_pl;
             }
-
-            // Параметры, не используемые в данном примере // TODO
-            e_x = 0; // Эксцентриситет не учитывается
-            x_M = x_m; // Высота сжатой зоны для M совпадает с x_m
-            sigma_s_crc = 0; // Не используется отдельно в данном расчете
         }
 
-        public override void PrintResults()
+        /// <summary>
+        /// Расчет ширины раскрытия трещин
+        /// </summary>
+        private void CalculateCrackWidth()
         {
-            AnsiConsole.MarkupLine("Результаты расчета:".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"I_red: {I_red:F2} см⁴".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"W_red: {W_red:F2} см³".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"W_pl: {W_pl:F2} см³".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"e_x: {e_x:F2} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"M_crc: {M_crc:F2} кг*см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"Eb_red: {Eb_red:F2} кг/см²".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"alpha_s1: {alpha_s1:F2}".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"x_M: {x_M:F2} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"x_m: {x_m:F2} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"A_red: {A_red:F2} см²".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"S_t_red: {S_t_red:F2} см³".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"y_c: {y_c:F2} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"I_red_cracked: {I_red_cracked:F2} см⁴".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"x_t: {x_t:F2} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"sigma_s: {sigma_s:F2} кг/см²".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"sigma_s_crc: {sigma_s_crc:F2} кг/см²".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"psi_s: {psi_s:F2}".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"a_crc1: {a_crc1:F4} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"a_crc2: {a_crc2:F4} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"a_crc3: {a_crc3:F4} см".EscapeMarkup().MarkupPrimaryColor());
-            AnsiConsole.MarkupLine($"Результат: {(Result ? "Прочность обеспечена" : "Прочность не обеспечена")}".EscapeMarkup().MarkupPrimaryColor());
+            double Es = ReinforcementClass.GetElasticityModule();
+            
+            CalculateResult.Eb_red = ConcreteClass.GetCompressionResistance() / epsilon_b1_red;
+            CalculateResult.alpha_s1 = Es / CalculateResult.Eb_red;
+            double alpha_s2 = CalculateResult.alpha_s1;
+            
+            double mu_s = As / (b * h0);
+            double mu_s_prime = As_prime / (b * h0);
+            
+            // Расчет высоты сжатой зоны для изгибаемого элемента
+            if (!ConsiderAxialForce)
+            {
+                CalculateResult.xM = h0 * (Math.Sqrt(Math.Pow(mu_s * alpha_s2 + mu_s_prime * CalculateResult.alpha_s1, 2) + 
+                                     2 * (mu_s * alpha_s2 + mu_s_prime * CalculateResult.alpha_s1 * a_prime / h0)) - 
+                           (mu_s * alpha_s2 + mu_s_prime * CalculateResult.alpha_s1));
+                    
+                CalculateResult.yc = CalculateResult.xM;
+            }
+            else
+            {
+                // Для сжато-изгибаемого элемента - более сложный расчет
+                CalculateCompressedFlexuralParameters();
+            }
+            
+            // Расчет геометрических характеристик сечения с трещинами
+            CalculateCrackedSectionProperties();
+            
+            // Расчет напряжений и ширины раскрытия трещин
+            CalculateStressesAndCrackWidths();
+        }
+        
+        /// <summary>
+        /// Расчет параметров для сжато-изгибаемого элемента
+        /// </summary>
+        private void CalculateCompressedFlexuralParameters()
+        {
+            // Для длительных нагрузок
+            CalculateResult.xm = CalculateResult.xM + (CalculateResult.I_red * Nl) / (CalculateResult.A_red * Ml);
+            
+            double Ab = CalculateResult.xm * b;
+            CalculateResult.A_red = Ab + CalculateResult.alpha_s1 * As_prime + CalculateResult.alpha_s1 * As;
+            CalculateResult.St_red = Ab * (h - 0.5 * CalculateResult.xm) + As_prime * h0_prime * CalculateResult.alpha_s1 + As * a * CalculateResult.alpha_s1;
+            CalculateResult.yc = h - CalculateResult.St_red / CalculateResult.A_red;
+        }
+        
+        /// <summary>
+        /// Расчет характеристик сечения с трещинами
+        /// </summary>
+        private void CalculateCrackedSectionProperties()
+        {
+            double Is = As * Math.Pow(h0 - CalculateResult.yc, 2);
+            double Is_prime = As_prime * Math.Pow(CalculateResult.yc - a_prime, 2);
+            double Ib = b * Math.Pow(CalculateResult.yc, 3) / 3;
+            
+            if (!ConsiderAxialForce)
+            {
+                // Для изгибаемого элемента
+                Ib = b * Math.Pow(CalculateResult.yc, 3) / 12 + CalculateResult.yc * b * Math.Pow(CalculateResult.yc / 2, 2);
+            }
+            
+            CalculateResult.I_red = Ib + Is * CalculateResult.alpha_s1 + Is_prime * CalculateResult.alpha_s1;
+            
+            CalculateResult.xt = h - CalculateResult.xm;
+            if (CalculateResult.xt >= 0.5 * h)
+            {
+                CalculateResult.xt = 0.5 * h;
+            }
+        }
+        
+        /// <summary>
+        /// Расчет напряжений и ширины раскрытия трещин
+        /// </summary>
+        private void CalculateStressesAndCrackWidths()
+        {
+            double At = b * CalculateResult.xt;
+            double ls = 0.5 * (At / As) * ds;
+            
+            // Ограничения на ls
+            if (ls >= 40 * ds)
+            {
+                ls = 40 * ds;
+            }
+
+            if (ls >= 40)
+            {
+                ls = 40;
+            }
+            
+            // Расчет напряжений
+            if (ConsiderAxialForce)
+            {
+                CalculateResult.sigma_s = (Ml * (h0 - CalculateResult.yc) / CalculateResult.I_red - Nl / CalculateResult.A_red) * CalculateResult.alpha_s1;
+                CalculateResult.sigma_s_crc = (CalculateResult.Mcrc * (h0 - CalculateResult.yc) / CalculateResult.I_red - Nl / CalculateResult.A_red) * CalculateResult.alpha_s1;
+            }
+            else
+            {
+                CalculateResult.sigma_s = (Ml * (h0 - CalculateResult.yc) / CalculateResult.I_red) * CalculateResult.alpha_s1;
+                CalculateResult.sigma_s_crc = (CalculateResult.Mcrc * (h0 - CalculateResult.yc) / CalculateResult.I_red) * CalculateResult.alpha_s1;
+            }
+            
+            // Коэффициент psi_s
+            if (!ConsiderAxialForce)
+            {
+                CalculateResult.psi_s = 1 - 0.8 * CalculateResult.Mcrc / Ml;
+            }
+            else
+            {
+                CalculateResult.psi_s = 1 - 0.8 * CalculateResult.sigma_s_crc / CalculateResult.sigma_s;
+            }
+            
+            double Es = ReinforcementClass.GetElasticityModule();
+            
+            // Ширина раскрытия трещин от длительных нагрузок
+            CalculateResult.acrc1 = 1.4 * phi2 * phi3 * CalculateResult.psi_s * CalculateResult.sigma_s / Es * ls;
+            
+            // Ширина раскрытия трещин от кратковременных длительных нагрузок
+            CalculateResult.acrc3 = 1.0 * phi2 * phi3 * CalculateResult.psi_s * CalculateResult.sigma_s / Es * ls;
+            
+            // Расчет для полных нагрузок
+            double sigma_s_full;
+            double psi_s_full;
+            
+            if (ConsiderAxialForce)
+            {
+                sigma_s_full = (M * (h0 - CalculateResult.yc) / CalculateResult.I_red - N / CalculateResult.A_red) * CalculateResult.alpha_s1;
+                psi_s_full = 1 - 0.8 * CalculateResult.sigma_s_crc / sigma_s_full;
+            }
+            else
+            {
+                sigma_s_full = (M * (h0 - CalculateResult.yc) / CalculateResult.I_red) * CalculateResult.alpha_s1;
+                psi_s_full = 1 - 0.8 * CalculateResult.Mcrc / M;
+            }
+            
+            CalculateResult.acrc2 = 1.0 * phi2 * phi3 * psi_s_full * sigma_s_full / Es * ls;
+        }
+        
+        /// <summary>
+        /// Проверка условий
+        /// </summary>
+        private void CheckConditions()
+        {
+            bool condition1 = CalculateResult.acrc1 <= acrc_ult_l;
+            double acrc_total = CalculateResult.acrc1 + CalculateResult.acrc2 - CalculateResult.acrc3;
+            bool condition2 = acrc_total <= acrc_ult;
+            
+            CalculateResult.Result = condition1 && condition2;
+        }
+        
+        /// <summary>
+        /// Проверка образования трещин
+        /// </summary>
+        public bool IsCrackingOccurred()
+        {
+            return M > CalculateResult.Mcrc;
         }
     }
 }

@@ -57,9 +57,10 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="BaseBuilderCalculator.cs" />
-        <Compile Include="Enums\ArmatureClass.cs" />
+        <Compile Include="BaseCalculateResult.cs" />
+        <Compile Include="Enums\ReinforcementClass.cs" />
         <Compile Include="Enums\ConcreteClass.cs" />
-        <Compile Include="Extensions\ArmatureExtensions.cs" />
+        <Compile Include="Extensions\ReinforcementExtensions.cs" />
         <Compile Include="Extensions\ConcreteExtensions.cs" />
         <Compile Include="Extensions\Extensions.cs" />
         <Compile Include="ParameterAttribute.cs" />

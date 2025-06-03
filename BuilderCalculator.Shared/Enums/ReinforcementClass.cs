@@ -1,6 +1,6 @@
 ﻿namespace Calculators.Shared.Enums
 {
-    public enum ArmatureClass
+    public enum ReinforcementClass
     {
         A240 = 0,
         A400 = 1,
