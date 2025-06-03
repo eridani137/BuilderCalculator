@@ -14,19 +14,10 @@ namespace Calculators.Shared
             foreach (var prop in properties)
             {
                 var attr = prop.GetCustomAttribute<ParameterAttribute>();
-                if (attr != null && prop.CanWrite)
-                {
-                    if (prop.PropertyType == typeof(double))
-                    {
-                        var defaultValue = prop.GetValue(this);
-                        var value = attr.Name.EnterDoubleParameter((double)defaultValue);
-                        prop.SetValue(this, value);
-                    }
-                    else if (prop.PropertyType == typeof(int))
-                    {
-                        
-                    }
-                }
+                if (attr == null || !prop.CanWrite) continue;
+                var defaultValue = prop.GetValue(this);
+                var value = attr.Name.EnterParameter(defaultValue);
+                prop.SetValue(this, value);
             }
         }
 

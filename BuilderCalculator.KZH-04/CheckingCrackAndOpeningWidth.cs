@@ -10,22 +10,28 @@ namespace Calculators.KZH_04
 {
     public class CheckingCrackAndOpeningWidth : BaseBuilderCalculator
     {
-        [Parameter("Момент от полной нагрузки кг·см (1 тс·м = 105 кг·см)")]
-        public double M { get; set; } = 27.70 * 1e5;
+        [Parameter("Изгибающий момент, кг·см")]
+        private double M { get; set; } = 27.70 * 1e5;
 
-        [Parameter("Момент от постоянной и длительной нагрузки кг·см")]
-        public double Ml { get; set; } = 25.00 * 1e5;
+        [Parameter("Момент от длительных нагрузок, кг·см")]
+        private double Ml { get; set; } = 25.00 * 1e5;
         
-        public bool IncludeLongitudinalForce { get; set; } // TODO
+        [Parameter("Продольная сила, кг")]
+        public double N { get; set; }
         
-        public double N { get; set; } // TODO
+        [Parameter("Учитывать продольную силу?")]
+        public bool ConsiderLongitudinalForce { get; set; }
         
-        [Parameter("Ширина сечения см")] public double b { get; set; } = 150.0;
+        [Parameter("Ширина сечения, см")] 
+        private double b { get; set; } = 150.0;
 
-        [Parameter("Высота сечения см")] public double h { get; set; } = 60.0;
+        [Parameter("Высота сечения, см")] 
+        private double h { get; set; } = 60.0;
 
-        [Parameter("Защитный слой бетона растянутой зоны см")]
-        public double a { get; set; } = 5.0;
+        [Parameter("Защитный слой растянутой арматуры, см")]
+        private double a { get; set; } = 5.0;
+        
+        private double aPrime { get; set; }
         
         /// <summary>
         /// Рабочая высота, см

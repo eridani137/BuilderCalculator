@@ -6,10 +6,10 @@ namespace Calculators.Shared.Extensions
     {
         private static readonly Style Style = new Style(Color.Aquamarine1);
         
-        public static double EnterDoubleParameter(this string text, double defaultValue)
+        public static T EnterParameter<T>(this string text, T defaultValue)
         {
             return AnsiConsole
-                .Prompt(new TextPrompt<double>(text.MarkupSecondaryColor())
+                .Prompt(new TextPrompt<T>(text.MarkupSecondaryColor())
                     .PromptStyle(Style)
                     .DefaultValue(defaultValue));
         }
