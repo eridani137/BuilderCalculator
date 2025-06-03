@@ -18,7 +18,7 @@ namespace Calculators.Shared
             Console.ReadKey(false);
         }
         
-        public virtual void EnteringParameters()
+        public void EnteringParameters()
         {
             var type = GetType();
             var properties = type

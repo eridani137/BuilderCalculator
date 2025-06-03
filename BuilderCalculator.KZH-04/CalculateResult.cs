@@ -36,7 +36,7 @@ namespace Calculators.KZH_04
         [Parameter("Напряжение в арматуре при трещинообразовании, кг/см²")] public double sigma_s_crc { get; set; }
         [Parameter("Коэффициент")] public double psi_s { get; set; }
 
-        // Ширины раскрытия трещин
+        // Ширина раскрытия трещины
         [Parameter("Ширина раскрытия от длительных нагрузок, см")] public double acrc1 { get; set; }
         [Parameter("Ширина раскрытия от полных нагрузок, см")] public double acrc2 { get; set; }
         [Parameter("Ширина раскрытия от кратковременных длительных нагрузок, см")] public double acrc3 { get; set; }

@@ -13,20 +13,19 @@ namespace Calculators.KZH_04
             CalculateResult = new CalculateResult(this);
         }
 
-
         // Внешние усилия
 
         [Parameter("Изгибающий момент, кг·см")]
-        public double M { get; set; } = 27.70e5;
+        private double M { get; set; } = 27.70e5;
 
         [Parameter("Изгибающий момент от длительных нагрузок, кг·см")]
-        public double Ml { get; set; } = 25.00e5;
+        private double Ml { get; set; } = 25.00e5;
 
         [Parameter("Продольная сила, кг (если учитывается)")]
-        public double N { get; set; } = 20.00e3;
+        private double N { get; set; } = 20.00e3;
 
         [Parameter("Продольная сила от длительных нагрузок, кг (если учитывается)")]
-        public double Nl { get; set; } = 18.00e3;
+        private double Nl { get; set; } = 18.00e3;
 
         [Parameter("Учет продольной силы")] public bool ConsiderAxialForce { get; set; } = true;
 
@@ -38,32 +37,31 @@ namespace Calculators.KZH_04
         [Parameter("Высота сечения, см")] public double h { get; set; } = 60.0;
 
         [Parameter("Расстояние до центра растянутой арматуры, см")]
-        public double a { get; set; } = 5.0;
+        private double a { get; set; } = 5.0;
 
         [Parameter("Расстояние до центра сжатой арматуры, см")]
-        public double a_prime { get; set; } = 5.0;
+        private double a_prime { get; set; } = 5.0;
 
         [Parameter("Рабочая высота сечения, см")]
-        public double h0 { get; set; } = 55.0;
+        private double h0 { get; set; } = 55.0;
 
         [Parameter("Расстояние до центра сжатой арматуры от сжатой грани, см")]
-        public double h0_prime { get; set; } = 55.0;
+        private double h0_prime { get; set; } = 55.0;
 
         [Parameter("Площадь растянутой арматуры, см²")]
-        public double As { get; set; } = 11.31;
+        private double As { get; set; } = 11.31;
 
         [Parameter("Площадь сжатой арматуры, см²")]
-        public double As_prime { get; set; } = 2.50;
+        private double As_prime { get; set; } = 2.50;
 
         [Parameter("Диаметр арматуры, см")] public double ds { get; set; } = 1.2;
 
 
         // Характеристики материалов
 
-        [Parameter("Класс бетона")] public ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B15;
+        [Parameter("Класс бетона")] private ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B15;
 
-        [Parameter("Класс арматуры")]
-        public ReinforcementClass ReinforcementClass { get; set; } = ReinforcementClass.A500;
+        [Parameter("Класс арматуры")] private ReinforcementClass ReinforcementClass { get; set; } = ReinforcementClass.A500;
 
 
         // Ограничения
@@ -77,13 +75,13 @@ namespace Calculators.KZH_04
 
         // Коэффициенты
 
-        public double phi2 { get; set; } = 0.5;
+        private double phi2 { get; set; } = 0.5;
 
-        public double phi3 { get; set; } = 1.0;
+        private double phi3 { get; set; } = 1.0;
 
-        public double epsilon_b1_red { get; set; } = 0.0015;
+        private double epsilon_b1_red { get; set; } = 0.0015;
 
-        public CalculateResult CalculateResult { get; set; }
+        private CalculateResult CalculateResult { get; set; }
 
         public override BaseCalculateResult Calculate()
         {
