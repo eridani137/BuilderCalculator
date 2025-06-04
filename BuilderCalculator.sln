@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderCalculator.Shared", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderCalculator.KZH-04", "BuilderCalculator.KZH-04\BuilderCalculator.KZH-04.csproj", "{755332A2-0005-417C-B0F5-415F6A1CB27B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderCalculator.KZH-07-3", "BuilderCalculator.KZH-07-3\BuilderCalculator.KZH-07-3.csproj", "{CE17EF7F-E5DB-4B60-A864-9E42362810F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{755332A2-0005-417C-B0F5-415F6A1CB27B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{755332A2-0005-417C-B0F5-415F6A1CB27B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{755332A2-0005-417C-B0F5-415F6A1CB27B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE17EF7F-E5DB-4B60-A864-9E42362810F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE17EF7F-E5DB-4B60-A864-9E42362810F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE17EF7F-E5DB-4B60-A864-9E42362810F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE17EF7F-E5DB-4B60-A864-9E42362810F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

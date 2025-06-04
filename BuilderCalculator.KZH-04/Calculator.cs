@@ -8,6 +8,8 @@ namespace Calculators.KZH_04
 {
     public class Calculator : BaseBuilderCalculator
     {
+        private CalculateResult CalculateResult { get; set; }
+        
         public Calculator()
         {
             CalculateResult = new CalculateResult(this);
@@ -121,8 +123,6 @@ namespace Calculators.KZH_04
         private double phi3 { get; set; } = 1.0;
 
         private double epsilon_b1_red { get; set; } = 0.0015;
-
-        private CalculateResult CalculateResult { get; set; }
 
 
         public override BaseCalculateResult Calculate()

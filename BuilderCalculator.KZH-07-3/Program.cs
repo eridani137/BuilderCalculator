@@ -1,4 +1,4 @@
-namespace Calculators.KZH_04
+namespace BuilderCalculator.KZH_07_3
 {
     internal static class Program
     {

@@ -9,13 +9,20 @@ namespace Calculators.Shared
     {
         public void Run()
         {
-            EnteringParameters();
-            var result = Calculate();
-            result?.PrintParameters();
-            result?.PrintSummary();
+            try
+            {
+                EnteringParameters();
+                var result = Calculate();
+                result?.PrintParameters();
+                result?.PrintSummary();
 
-            AnsiConsole.MarkupLine("Нажмите любую клавишу для выхода...".MarkupPrimaryColor());
-            Console.ReadKey(false);
+                AnsiConsole.MarkupLine("Нажмите любую клавишу для выхода...".MarkupPrimaryColor());
+                Console.ReadKey(false);
+            }
+            catch (Exception e)
+            {
+                AnsiConsole.WriteException(e);
+            }
         }
 
         private void EnteringParameters()

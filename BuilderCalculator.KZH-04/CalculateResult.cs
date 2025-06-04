@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Calculators.Shared;
 using Calculators.Shared.Extensions;
 using Spectre.Console;
@@ -7,11 +8,9 @@ namespace Calculators.KZH_04
 {
     public class CalculateResult : BaseCalculateResult
     {
-        private readonly Calculator _calculator;
-
-        public CalculateResult(Calculator calculator)
+        public CalculateResult(Calculator calculator) : base(calculator)
         {
-            _calculator = calculator;
+            Calculator = calculator;
         }
 
         // Геометрические характеристики
@@ -43,43 +42,24 @@ namespace Calculators.KZH_04
 
         // Результат проверки
         public bool Result { get; set; }
-        
-        public override void PrintParameters()
-        {
-            var type = GetType();
-            var properties = type
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            
-            var table = new Table();
-            
-            table.AddColumn("Параметр");
-            table.AddColumn("Обозначение");
-            table.AddColumn("Значение");
-
-            foreach (var prop in properties)
-            {
-                var attr = prop.GetCustomAttribute<ParameterAttribute>();
-                if (attr == null || !prop.CanRead) continue;
-                var value = prop.GetValue(this);
-                
-                table.AddRow(attr.Name, prop.Name, value.ToString());
-            }
-
-            AnsiConsole.Write(table);
-        }
 
         public override void PrintSummary()
         {
+            if (!(Calculator is Calculator calculator))
+            {
+                throw new ApplicationException("Задан неверный тип калькулятора");
+            }
+            
             var summary = $@"
                            === РЕЗУЛЬТАТЫ РАСЧЕТА ТРЕЩИНООБРАЗОВАНИЯ ===
                            Момент трещинообразования: {Mcrc:F2} кг·см
-                           Трещины образуются: {(_calculator.IsCrackingOccurred() ? "ДА".MarkupErrorColor() : "НЕТ".MarkupSecondaryColor())}
+                           Трещины образуются: {(calculator.IsCrackingOccurred() ? "ДА".MarkupErrorColor() : "НЕТ".MarkupSecondaryColor())}
 
                            Ширина раскрытия трещин:
-                           - От длительных нагрузок (acrc1): {acrc1:F4} см ≤ {_calculator.acrc_ult_l:F4} см
+                           - От длительных нагрузок (acrc1): {acrc1:F4} см ≤ {calculator.acrc_ult_l:F4} см
                            - От полных нагрузок (acrc2): {acrc2:F4} см
                            - От кратковременных длительных (acrc3): {acrc3:F4} см
-                           - Общая ширина: {(acrc1 + acrc2 - acrc3):F4} см ≤ {_calculator.acrc_ult:F4} см
+                           - Общая ширина: {(acrc1 + acrc2 - acrc3):F4} см ≤ {calculator.acrc_ult:F4} см
 
                            РЕЗУЛЬТАТ: {(Result ? "ПРОЧНОСТЬ ОБЕСПЕЧЕНА".MarkupSecondaryColor() : "ПРОЧНОСТЬ НЕ ОБЕСПЕЧЕНА".MarkupErrorColor())}
                            ";
