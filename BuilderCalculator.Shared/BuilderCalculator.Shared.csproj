@@ -59,7 +59,7 @@
         <Compile Include="Abstractions\BaseBuilderCalculator.cs" />
         <Compile Include="Abstractions\BaseCalculateResult.cs" />
         <Compile Include="Attributes\InputParameterAttribute.cs" />
-        <Compile Include="Attributes\ResultValueAttribute.cs" />
+        <Compile Include="Attributes\OutputParameterAttribute.cs" />
         <Compile Include="Enums\ReinforcementClass.cs" />
         <Compile Include="Enums\ConcreteClass.cs" />
         <Compile Include="Extensions\Extensions.cs" />

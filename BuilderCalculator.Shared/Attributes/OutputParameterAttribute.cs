@@ -3,11 +3,11 @@
 namespace Calculators.Shared.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class ResultValueAttribute : Attribute
+    public class OutputParameterAttribute : Attribute
     {
         public string Name { get; }
 
-        public ResultValueAttribute(string name)
+        public OutputParameterAttribute(string name)
         {
             Name = name;
         }

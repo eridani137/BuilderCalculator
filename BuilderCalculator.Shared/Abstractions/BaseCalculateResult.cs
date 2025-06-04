@@ -27,7 +27,7 @@ namespace Calculators.Shared.Abstractions
 
             foreach (var prop in properties)
             {
-                var attr = prop.GetCustomAttribute<ResultValueAttribute>();
+                var attr = prop.GetCustomAttribute<OutputParameterAttribute>();
                 if (attr == null || !prop.CanRead) continue;
                 var value = prop.GetValue(this);
                 
