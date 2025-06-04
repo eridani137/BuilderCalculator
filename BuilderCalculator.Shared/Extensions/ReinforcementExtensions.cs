@@ -7,6 +7,7 @@ namespace Calculators.Shared.Extensions
     {
         /// <summary>
         /// Возвращает модуль упругости арматуры, кг/см²
+        /// KZH-04 - Es
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static double GetElasticityModule(this ReinforcementClass reinforcementClass)

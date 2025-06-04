@@ -7,7 +7,7 @@ namespace Calculators.Shared.Extensions
     {
         /// <summary>
         /// Возвращает сопротивление растяжению, кг/см²
-        /// Rbt_ser
+        /// KZH-04 - Rbt_ser
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static double GetStretchResistance(this ConcreteClass concreteClass)
@@ -32,7 +32,7 @@ namespace Calculators.Shared.Extensions
 
         /// <summary>
         /// Возвращает расчетное сопротивление сжатию, кг/см²
-        /// Rb_ser
+        /// KZH-04 - Rb_ser
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static double GetCompressionResistance(this ConcreteClass concreteClass)
@@ -57,7 +57,7 @@ namespace Calculators.Shared.Extensions
 
         /// <summary>
         /// Возвращает модуль упругости бетона, кг/см²
-        /// Eb
+        /// KZH-04 - Eb
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static double GetElasticityModule(this ConcreteClass concreteClass)

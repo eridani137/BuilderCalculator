@@ -33,7 +33,7 @@ namespace Calculators.Shared
             
             foreach (var prop in properties)
             {
-                var attr = prop.GetCustomAttribute<ParameterAttribute>();
+                var attr = prop.GetCustomAttribute<InputParameterAttribute>();
                 if (attr == null || !prop.CanWrite) continue;
                 var defaultValue = prop.GetValue(this);
                 var value = attr.Name.EnterParameter(defaultValue);

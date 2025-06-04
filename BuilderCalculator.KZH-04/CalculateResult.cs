@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Calculators.Shared;
 using Calculators.Shared.Extensions;
 using Spectre.Console;
@@ -13,34 +12,26 @@ namespace Calculators.KZH_04
             Calculator = calculator;
         }
 
-        // Геометрические характеристики
-        [Parameter("Приведенный момент инерции, см⁴")] public double I_red { get; set; }
-        [Parameter("Приведенный момент сопротивления, см³")] public double W_red { get; set; }
-        [Parameter("Пластический момент сопротивления, см³")] public double W_pl { get; set; }
-        [Parameter("Эксцентриситет, см")] public double ex { get; set; }
-        [Parameter("Момент трещинообразования, кг·см")] public double Mcrc { get; set; }
+        [ResultValue("Приведенный момент инерции, см4")] public double I_red { get; set; }
+        [ResultValue("Приведенный момент сопротивления, см3")] public double W_red { get; set; }
+        [ResultValue("Пластический момент сопротивления, см3")] public double W_pl { get; set; }
+        [ResultValue("Эксцентриситет, см")] public double ex { get; set; }
+        [ResultValue("Момент трещинообразования, кг·см")] public double Mcrc { get; set; }
+        [ResultValue("Приведенный модуль упругости бетона, кг/см2")] public double Eb_red { get; set; }
+        [ResultValue("Отношение модулей упругости")] public double alpha_s1 { get; set; }
+        [ResultValue("Высота сжатой зоны, см")] public double xM { get; set; }
+        [ResultValue("Высота сжатой зоны с учетом нагрузок, см")] public double xm { get; set; }
+        [ResultValue("Приведенная площадь, см2")] public double A_red { get; set; }
+        [ResultValue("Статический момент, см3")] public double St_red { get; set; }
+        [ResultValue("Расстояние до центра тяжести, см")] public double yc { get; set; }
+        [ResultValue("Высота растянутой зоны, см")] public double xt { get; set; }
+        [ResultValue("Напряжение в арматуре, кг/см2")] public double sigma_s { get; set; }
+        [ResultValue("Напряжение в арматуре при трещинообразовании, кг/см2")] public double sigma_s_crc { get; set; }
+        [ResultValue("Коэффициент")] public double psi_s { get; set; }
+        [ResultValue("Ширина раскрытия от длительных нагрузок, см")] public double acrc1 { get; set; }
+        [ResultValue("Ширина раскрытия от полных нагрузок, см")] public double acrc2 { get; set; }
+        [ResultValue("Ширина раскрытия от кратковременных длительных нагрузок, см")] public double acrc3 { get; set; }
 
-        // Деформационные характеристики
-        [Parameter("Приведенный модуль упругости бетона, кг/см²")] public double Eb_red { get; set; }
-        [Parameter("Отношение модулей упругости")] public double alpha_s1 { get; set; }
-        [Parameter("Высота сжатой зоны, см")] public double xM { get; set; }
-        [Parameter("Высота сжатой зоны с учетом нагрузок, см")] public double xm { get; set; }
-        [Parameter("Приведенная площадь, см²")] public double A_red { get; set; }
-        [Parameter("Статический момент, см³")] public double St_red { get; set; }
-        [Parameter("Расстояние до центра тяжести, см")] public double yc { get; set; }
-        [Parameter("Высота растянутой зоны, см")] public double xt { get; set; }
-
-        // Напряжения
-        [Parameter("Напряжение в арматуре, кг/см²")] public double sigma_s { get; set; }
-        [Parameter("Напряжение в арматуре при трещинообразовании, кг/см²")] public double sigma_s_crc { get; set; }
-        [Parameter("Коэффициент")] public double psi_s { get; set; }
-
-        // Ширина раскрытия трещины
-        [Parameter("Ширина раскрытия от длительных нагрузок, см")] public double acrc1 { get; set; }
-        [Parameter("Ширина раскрытия от полных нагрузок, см")] public double acrc2 { get; set; }
-        [Parameter("Ширина раскрытия от кратковременных длительных нагрузок, см")] public double acrc3 { get; set; }
-
-        // Результат проверки
         public bool Result { get; set; }
 
         public override void PrintSummary()

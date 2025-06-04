@@ -26,7 +26,7 @@ namespace Calculators.Shared
 
             foreach (var prop in properties)
             {
-                var attr = prop.GetCustomAttribute<ParameterAttribute>();
+                var attr = prop.GetCustomAttribute<ResultValueAttribute>();
                 if (attr == null || !prop.CanRead) continue;
                 var value = prop.GetValue(this);
                 

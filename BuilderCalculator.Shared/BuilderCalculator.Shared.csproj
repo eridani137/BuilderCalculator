@@ -63,8 +63,9 @@
         <Compile Include="Extensions\ReinforcementExtensions.cs" />
         <Compile Include="Extensions\ConcreteExtensions.cs" />
         <Compile Include="Extensions\Extensions.cs" />
-        <Compile Include="ParameterAttribute.cs" />
+        <Compile Include="InputParameterAttribute.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="ResultValueAttribute.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />

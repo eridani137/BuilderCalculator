@@ -55,68 +55,60 @@ namespace Calculators.KZH_04
             acrc_ult_l = acrc_ult_l;
         }
 
-        // Внешние усилия
-
-        [Parameter("Изгибающий момент, кг·см")]
+        [InputParameter("Момент от полной нагрузки, кг·см")]
         private double M { get; set; } = 27.70e5;
 
-        [Parameter("Изгибающий момент от длительных нагрузок, кг·см")]
+        [InputParameter("Момент от постоянной и длительной нагрузки, кг·см")]
         private double Ml { get; set; } = 25.00e5;
+        
+        [InputParameter("Учет продольной силы")] 
+        private bool ConsiderAxialForce { get; set; } = true;
 
-        [Parameter("Продольная сила, кг (если учитывается)")]
+        [InputParameter("Продольная сила от полной нагрузки, кг (если учитывается)")]
         private double N { get; set; } = 20.00e3;
 
-        [Parameter("Продольная сила от длительных нагрузок, кг (если учитывается)")]
+        [InputParameter("Продольная сила от постоянной и длительной нагрузки, кг (если учитывается)")]
         private double Nl { get; set; } = 18.00e3;
 
-        [Parameter("Учет продольной силы")] private bool ConsiderAxialForce { get; set; } = true;
+        [InputParameter("Ширина сечения, см")] 
+        private double b { get; set; } = 150.0;
 
+        [InputParameter("Высота сечения, см")] 
+        private double h { get; set; } = 60.0;
 
-        // Геометрические характеристики
-
-        [Parameter("Ширина сечения, см")] private double b { get; set; } = 150.0;
-
-        [Parameter("Высота сечения, см")] private double h { get; set; } = 60.0;
-
-        [Parameter("Расстояние до центра растянутой арматуры, см")]
+        [InputParameter("Защитный слой бетона растянутой зоны, см")]
         private double a { get; set; } = 5.0;
 
-        [Parameter("Расстояние до центра сжатой арматуры, см")]
+        [InputParameter("Защитный слой бетона сжатой зоны, см")]
         private double a_prime { get; set; } = 5.0;
 
-        [Parameter("Рабочая высота сечения, см")]
-        private double h0 { get; set; } = 55.0;
-
-        [Parameter("Расстояние до центра сжатой арматуры от сжатой грани, см")]
-        private double h0_prime { get; set; } = 55.0;
-
-        [Parameter("Площадь растянутой арматуры, см²")]
+        [InputParameter("Площадь растянутой арматуры, см2")]
         private double As { get; set; } = 11.31;
 
-        [Parameter("Площадь сжатой арматуры, см²")]
+        [InputParameter("Площадь сжатой арматуры, см2")]
         private double As_prime { get; set; } = 2.50;
 
-        [Parameter("Диаметр арматуры, см")] private double ds { get; set; } = 1.2;
+        [InputParameter("Диаметр арматуры, см")] 
+        private double ds { get; set; } = 1.2;
+        
+        [InputParameter("Класс бетона")] 
+        private ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B15;
 
-
-        // Характеристики материалов
-
-        [Parameter("Класс бетона")] private ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B15;
-
-        [Parameter("Класс арматуры")]
+        [InputParameter("Класс арматуры")]
         private ReinforcementClass ReinforcementClass { get; set; } = ReinforcementClass.A500;
-
-
-        // Ограничения
-
-        [Parameter("Предельная ширина раскрытия трещин, см")]
-        public double acrc_ult { get; set; } = 0.0400;
-
-        [Parameter("Предельная ширина раскрытия трещин от длительных нагрузок, см")]
+        
+        [InputParameter("Предельно допустимая ширина продолжительного раскрытия трещин, см")]
         public double acrc_ult_l { get; set; } = 0.0300;
+        
+        [InputParameter("Предельно допустимая ширина непродолжительного раскрытия трещин, см")]
+        public double acrc_ult { get; set; } = 0.0400;
+        
+        
+        [InputParameter("Рабочая высота сечения, см")]
+        private double h0 { get; set; } = 55.0;
 
-
-        // Коэффициенты
+        [InputParameter("Расстояние до центра сжатой арматуры от сжатой грани, см")]
+        private double h0_prime { get; set; } = 55.0;
 
         private double phi2 { get; set; } = 0.5;
 
