@@ -14,6 +14,45 @@ namespace BuilderCalculator.KZH_07_3
             CalculateResult = new CalculateResult(this);
         }
 
+        public Calculator(
+            double F,
+            bool ConsiderBendingMoments,
+            double Mx,
+            double My,
+            bool DivideMomentsByTwo,
+            bool ConsiderSoilReaction,
+            double p,
+            double SizeX,
+            double SizeY,
+            double h,
+            double a,
+            ConcreteClass ConcreteClass,
+            double GammaB,
+            bool ConsiderShearReinforcement,
+            ReinforcementClass ReinforcementClass,
+            double Asw,
+            double Sw
+        )
+        {
+            F = F;
+            ConsiderBendingMoments = ConsiderBendingMoments;
+            Mx = Mx;
+            My = My;
+            DivideMomentsByTwo = DivideMomentsByTwo;
+            ConsiderSoilReaction = ConsiderSoilReaction;
+            p = p;
+            SizeX = SizeX;
+            SizeY = SizeY;
+            h = h;
+            a = a;
+            ConcreteClass = ConcreteClass;
+            GammaB = GammaB;
+            ConsiderShearReinforcement = ConsiderShearReinforcement;
+            ReinforcementClass = ReinforcementClass;
+            Asw = Asw;
+            Sw = Sw;
+        }
+
         [InputParameter("Сосредоточенная сила от внешней нагрузки, кг")]
         public double F { get; set; } = 20000;
 
@@ -195,6 +234,7 @@ namespace BuilderCalculator.KZH_07_3
             {
                 throw new ArgumentException("Размеры зоны приложения нагрузки должны быть положительными");
             }
+
             if (h <= 0) throw new ArgumentException("Высота сечения должна быть положительной");
             if (GammaB <= 0) throw new ArgumentException("Коэффициент условий работы бетона должен быть положительным");
             if (ConsiderShearReinforcement && (Asw <= 0 || Sw <= 0))

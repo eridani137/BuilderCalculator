@@ -11,7 +11,6 @@ namespace Calculators.KZH_04
     {
         public CalculateResult(Calculator calculator) : base(calculator)
         {
-            Calculator = calculator;
         }
 
         [OutputParameter("Приведенный момент инерции, см4")] public double I_red { get; set; }
