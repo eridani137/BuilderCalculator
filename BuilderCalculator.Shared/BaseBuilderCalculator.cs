@@ -17,8 +17,8 @@ namespace Calculators.Shared
             AnsiConsole.MarkupLine("Нажмите любую клавишу для выхода...".MarkupPrimaryColor());
             Console.ReadKey(false);
         }
-        
-        public void EnteringParameters()
+
+        private void EnteringParameters()
         {
             var type = GetType();
             var properties = type
