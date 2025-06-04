@@ -2,6 +2,7 @@
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Enums;
+using Calculators.Shared.Extensions;
 
 namespace BuilderCalculator.KZH_07._7.Two
 {
@@ -12,6 +13,35 @@ namespace BuilderCalculator.KZH_07._7.Two
         public Calculator()
         {
             CalculateResult = new CalculateResult(this);
+        }
+
+        public Calculator(double f, int fDirection, double mx, double my, bool divideM, bool divideFe, double acy, double bcx, double h, double a, double c1, double d1, double dx1, double dy1, double c2, double d2, double dx2, double dy2, ConcreteClass concreteClass, double gammaBi, bool considerShearReinforcement, ReinforcementClass reinforcementClass, double asw, double sw)
+        {
+            CalculateResult = new CalculateResult(this);
+            F = f;
+            FDirection = fDirection;
+            Mx = mx;
+            My = my;
+            DivideM = divideM;
+            DivideFe = divideFe;
+            Acy = acy;
+            Bcx = bcx;
+            H = h;
+            A = a;
+            C1 = c1;
+            D1 = d1;
+            Dx1 = dx1;
+            Dy1 = dy1;
+            C2 = c2;
+            D2 = d2;
+            Dx2 = dx2;
+            Dy2 = dy2;
+            ConcreteClass = concreteClass;
+            GammaBi = gammaBi;
+            ConsiderShearReinforcement = considerShearReinforcement;
+            ReinforcementClass = reinforcementClass;
+            Asw = asw;
+            Sw = sw;
         }
 
         [InputParameter("Сосредоточенная сила, кгс")]

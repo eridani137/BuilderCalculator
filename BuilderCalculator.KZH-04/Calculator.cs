@@ -11,50 +11,39 @@ namespace Calculators.KZH_04
     public class Calculator : BaseBuilderCalculator
     {
         private CalculateResult CalculateResult { get; set; }
-        
+
         public Calculator()
         {
             CalculateResult = new CalculateResult(this);
         }
 
-        public Calculator(
-            double M,
-            double Ml,
-            double N,
-            double Nl,
-            bool ConsiderAxialForce,
-            double b,
-            double h,
-            double a,
-            double a_prime,
-            double h0,
-            double h0_prime,
-            double As,
-            double As_prime,
-            double ds,
-            ConcreteClass ConcreteClass,
-            ReinforcementClass ReinforcementClass,
-            double acrc_ult,
-            double acrc_ult_l)
+        public Calculator(double m, double ml, bool considerAxialForce, double n,
+            double nl, double b, double h, double a, double aPrime, double @as, double asPrime, double ds,
+            ConcreteClass concreteClass, ReinforcementClass reinforcementClass, double acrcUltL, double acrcUlt,
+            double h0, double h0Prime, double phi2, double phi3, double epsilonB1Red)
         {
-            M = M;
-            Ml = Ml;
-            N = N;
-            Nl = Nl;
-            ConsiderAxialForce = ConsiderAxialForce;
-            b = b;
-            h = h;
-            a = a;
-            a_prime = a_prime;
-            h0 = h0;
-            h0_prime = h0_prime;
-            As = As;
-            As_prime = As_prime;
-            ds = ds;
-            ConcreteClass = ConcreteClass;
-            ReinforcementClass = ReinforcementClass;
-            acrc_ult = acrc_ult;
-            acrc_ult_l = acrc_ult_l;
+            CalculateResult = new CalculateResult(this);
+            M = m;
+            Ml = ml;
+            ConsiderAxialForce = considerAxialForce;
+            N = n;
+            Nl = nl;
+            this.b = b;
+            this.h = h;
+            this.a = a;
+            a_prime = aPrime;
+            As = @as;
+            As_prime = asPrime;
+            this.ds = ds;
+            ConcreteClass = concreteClass;
+            ReinforcementClass = reinforcementClass;
+            acrc_ult_l = acrcUltL;
+            acrc_ult = acrcUlt;
+            this.h0 = h0;
+            h0_prime = h0Prime;
+            this.phi2 = phi2;
+            this.phi3 = phi3;
+            epsilon_b1_red = epsilonB1Red;
         }
 
         [InputParameter("Момент от полной нагрузки, кг·см")]
@@ -62,8 +51,8 @@ namespace Calculators.KZH_04
 
         [InputParameter("Момент от постоянной и длительной нагрузки, кг·см")]
         private double Ml { get; set; } = 25.00e5;
-        
-        [InputParameter("Учет продольной силы")] 
+
+        [InputParameter("Учет продольной силы")]
         private bool ConsiderAxialForce { get; set; } = true;
 
         [InputParameter("Продольная сила от полной нагрузки, кг (если учитывается)")]
@@ -72,11 +61,9 @@ namespace Calculators.KZH_04
         [InputParameter("Продольная сила от постоянной и длительной нагрузки, кг (если учитывается)")]
         private double Nl { get; set; } = 18.00e3;
 
-        [InputParameter("Ширина сечения, см")] 
-        private double b { get; set; } = 150.0;
+        [InputParameter("Ширина сечения, см")] private double b { get; set; } = 150.0;
 
-        [InputParameter("Высота сечения, см")] 
-        private double h { get; set; } = 60.0;
+        [InputParameter("Высота сечения, см")] private double h { get; set; } = 60.0;
 
         [InputParameter("Защитный слой бетона растянутой зоны, см")]
         private double a { get; set; } = 5.0;
@@ -90,22 +77,21 @@ namespace Calculators.KZH_04
         [InputParameter("Площадь сжатой арматуры, см2")]
         private double As_prime { get; set; } = 2.50;
 
-        [InputParameter("Диаметр арматуры, см")] 
+        [InputParameter("Диаметр арматуры, см")]
         private double ds { get; set; } = 1.2;
-        
-        [InputParameter("Класс бетона")] 
-        private ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B15;
+
+        [InputParameter("Класс бетона")] private ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B15;
 
         [InputParameter("Класс арматуры")]
         private ReinforcementClass ReinforcementClass { get; set; } = ReinforcementClass.A500;
-        
+
         [InputParameter("Предельно допустимая ширина продолжительного раскрытия трещин, см")]
         public double acrc_ult_l { get; set; } = 0.0300;
-        
+
         [InputParameter("Предельно допустимая ширина непродолжительного раскрытия трещин, см")]
         public double acrc_ult { get; set; } = 0.0400;
-        
-        
+
+
         [InputParameter("Рабочая высота сечения, см")]
         private double h0 { get; set; } = 55.0;
 

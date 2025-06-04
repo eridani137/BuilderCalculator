@@ -2,6 +2,7 @@
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Enums;
+using Calculators.Shared.Extensions;
 
 namespace BuilderCalculator.KZH_07_3
 {
@@ -14,43 +15,29 @@ namespace BuilderCalculator.KZH_07_3
             CalculateResult = new CalculateResult(this);
         }
 
-        public Calculator(
-            double F,
-            bool ConsiderBendingMoments,
-            double Mx,
-            double My,
-            bool DivideMomentsByTwo,
-            bool ConsiderSoilReaction,
-            double p,
-            double SizeX,
-            double SizeY,
-            double h,
-            double a,
-            ConcreteClass ConcreteClass,
-            double GammaB,
-            bool ConsiderShearReinforcement,
-            ReinforcementClass ReinforcementClass,
-            double Asw,
-            double Sw
-        )
+        public Calculator(double f, bool considerBendingMoments, double mx, double my,
+            bool divideMomentsByTwo, bool considerSoilReaction, double p, double sizeX, double sizeY, double h,
+            double a, ConcreteClass concreteClass, double gammaB, bool considerShearReinforcement,
+            ReinforcementClass reinforcementClass, double asw, double sw)
         {
-            F = F;
-            ConsiderBendingMoments = ConsiderBendingMoments;
-            Mx = Mx;
-            My = My;
-            DivideMomentsByTwo = DivideMomentsByTwo;
-            ConsiderSoilReaction = ConsiderSoilReaction;
-            p = p;
-            SizeX = SizeX;
-            SizeY = SizeY;
-            h = h;
-            a = a;
-            ConcreteClass = ConcreteClass;
-            GammaB = GammaB;
-            ConsiderShearReinforcement = ConsiderShearReinforcement;
-            ReinforcementClass = ReinforcementClass;
-            Asw = Asw;
-            Sw = Sw;
+            CalculateResult = new CalculateResult(this);
+            F = f;
+            ConsiderBendingMoments = considerBendingMoments;
+            Mx = mx;
+            My = my;
+            DivideMomentsByTwo = divideMomentsByTwo;
+            ConsiderSoilReaction = considerSoilReaction;
+            this.p = p;
+            SizeX = sizeX;
+            SizeY = sizeY;
+            this.h = h;
+            this.a = a;
+            ConcreteClass = concreteClass;
+            GammaB = gammaB;
+            ConsiderShearReinforcement = considerShearReinforcement;
+            ReinforcementClass = reinforcementClass;
+            Asw = asw;
+            Sw = sw;
         }
 
         [InputParameter("Сосредоточенная сила от внешней нагрузки, кг")]
@@ -135,7 +122,7 @@ namespace BuilderCalculator.KZH_07_3
             }
 
             // 6. Определение характеристик материалов
-            double Rbt = ConcreteClass.GetRbt() * GammaB;
+            double Rbt = ConcreteClass.GetRbt(GammaB);
             double Rsw = ConsiderShearReinforcement ? ReinforcementClass.GetRsw() : 0;
 
             // 7. Расчет геометрических характеристик
