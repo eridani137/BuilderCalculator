@@ -1,4 +1,5 @@
 ﻿using Calculators.Shared;
+using Calculators.Shared.Abstractions;
 
 namespace BuilderCalculator.KZH_07_3
 {

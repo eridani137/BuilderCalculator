@@ -1,16 +1,15 @@
 ﻿using System;
 using Calculators.Shared.Enums;
 
-namespace Calculators.Shared.Extensions
+namespace Calculators.KZH_04
 {
-    public static class ConcreteExtensions
+    public static class Extensions
     {
         /// <summary>
         /// Возвращает сопротивление растяжению, кг/см²
-        /// KZH-04 - Rbt_ser
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static double GetStretchResistance(this ConcreteClass concreteClass)
+        public static double GetRbt_ser(this ConcreteClass concreteClass)
         {
             switch (concreteClass)
             {
@@ -29,13 +28,12 @@ namespace Calculators.Shared.Extensions
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
             }
         }
-
+        
         /// <summary>
         /// Возвращает расчетное сопротивление сжатию, кг/см²
-        /// KZH-04 - Rb_ser
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static double GetCompressionResistance(this ConcreteClass concreteClass)
+        public static double GetRb_ser(this ConcreteClass concreteClass)
         {
             switch (concreteClass)
             {
@@ -57,7 +55,6 @@ namespace Calculators.Shared.Extensions
 
         /// <summary>
         /// Возвращает модуль упругости бетона, кг/см²
-        /// KZH-04 - Eb
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static double GetElasticityModule(this ConcreteClass concreteClass)
@@ -77,6 +74,27 @@ namespace Calculators.Shared.Extensions
                 case ConcreteClass.B60: return 4.03e5;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }
+        }
+        
+        /// <summary>
+        /// Возвращает модуль упругости арматуры, кг/см²
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static double GetElasticityModule(this ReinforcementClass reinforcementClass)
+        {
+            switch (reinforcementClass)
+            {
+                case ReinforcementClass.A240:
+                case ReinforcementClass.A400:
+                case ReinforcementClass.A500:
+                case ReinforcementClass.A500SP:
+                case ReinforcementClass.A600:
+                case ReinforcementClass.A600SP:
+                case ReinforcementClass.AU500SP:
+                case ReinforcementClass.B500: return 2.04e6;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
             }
         }
     }

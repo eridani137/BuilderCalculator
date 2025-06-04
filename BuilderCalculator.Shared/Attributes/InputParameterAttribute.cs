@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Calculators.Shared
+namespace Calculators.Shared.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class ResultValueAttribute : Attribute
+    public class InputParameterAttribute : Attribute
     {
         public string Name { get; }
 
-        public ResultValueAttribute(string name)
+        public InputParameterAttribute(string name)
         {
             Name = name;
         }

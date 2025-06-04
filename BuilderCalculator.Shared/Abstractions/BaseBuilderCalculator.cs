@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Reflection;
+using Calculators.Shared.Attributes;
 using Calculators.Shared.Extensions;
 using Spectre.Console;
 
-namespace Calculators.Shared
+namespace Calculators.Shared.Abstractions
 {
     public abstract class BaseBuilderCalculator
     {

@@ -1,5 +1,7 @@
 ﻿using System;
 using Calculators.Shared;
+using Calculators.Shared.Abstractions;
+using Calculators.Shared.Attributes;
 using Calculators.Shared.Enums;
 using Calculators.Shared.Extensions;
 using Spectre.Console;
@@ -168,11 +170,11 @@ namespace Calculators.KZH_04
             {
                 CalculateResult.ex = CalculateResult.W_red / A_red_temp;
                 CalculateResult.Mcrc =
-                    ConcreteClass.GetStretchResistance() * CalculateResult.W_pl + N * CalculateResult.ex;
+                    ConcreteClass.GetRbt_ser() * CalculateResult.W_pl + N * CalculateResult.ex;
             }
             else
             {
-                CalculateResult.Mcrc = ConcreteClass.GetStretchResistance() * CalculateResult.W_pl;
+                CalculateResult.Mcrc = ConcreteClass.GetRbt_ser() * CalculateResult.W_pl;
             }
         }
 
@@ -183,7 +185,7 @@ namespace Calculators.KZH_04
         {
             double Es = ReinforcementClass.GetElasticityModule();
 
-            CalculateResult.Eb_red = ConcreteClass.GetCompressionResistance() / epsilon_b1_red;
+            CalculateResult.Eb_red = ConcreteClass.GetRb_ser() / epsilon_b1_red;
             CalculateResult.alpha_s1 = Es / CalculateResult.Eb_red;
             double alpha_s2 = CalculateResult.alpha_s1;
 
