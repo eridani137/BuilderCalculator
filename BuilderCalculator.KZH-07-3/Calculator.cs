@@ -92,18 +92,11 @@ namespace BuilderCalculator.KZH_07_3
 
         public override BaseCalculateResult Calculate()
         {
-            // 1. Валидация входных параметров
             ValidateInputParameters();
+            CalculateResult.H0 = Math.Max(0, h - a);
 
-            // 2. Расчет рабочей высоты сечения
-            CalculateResult.H0 = h - a;
-            double H0 = CalculateResult.H0;
-
-            // 3. Сохраняем исходное значение F
             double originalF = F;
             double currentF = F;
-
-            // 4. Обработка моментов
             double currentMx = Math.Abs(Mx);
             double currentMy = Math.Abs(My);
 
@@ -113,28 +106,24 @@ namespace BuilderCalculator.KZH_07_3
                 currentMy /= 2.0;
             }
 
-            // 5. Учет отпора грунта
             if (ConsiderSoilReaction)
             {
-                double Fp = p * (SizeY + 2 * H0) * (SizeX + 2 * H0);
+                double Fp = p * (SizeY + 2 * CalculateResult.H0) * (SizeX + 2 * CalculateResult.H0);
                 Fp = Math.Min(Fp, currentF);
                 currentF -= Fp;
             }
 
-            // 6. Определение характеристик материалов
             double Rbt = ConcreteClass.GetRbt(GammaB);
             double Rsw = ConsiderShearReinforcement ? ReinforcementClass.GetRsw() : 0;
 
-            // 7. Расчет геометрических характеристик
-            double u = 2 * (SizeX + SizeY + 2 * H0);
-            double Ab = u * H0;
+            double u = 2 * (SizeX + SizeY + 2 * CalculateResult.H0);
+            double Ab = u * CalculateResult.H0;
             CalculateResult.Fb_ult = Rbt * Ab;
 
-            // 8. Расчет характеристик для моментов
             if (ConsiderBendingMoments)
             {
-                double Lx = SizeX + H0;
-                double Ly = SizeY + H0;
+                double Lx = SizeX + CalculateResult.H0;
+                double Ly = SizeY + CalculateResult.H0;
 
                 double Ibx1 = Math.Pow(Lx, 3) / 6.0;
                 double Iby1 = Math.Pow(Ly, 3) / 6.0;
@@ -147,11 +136,10 @@ namespace BuilderCalculator.KZH_07_3
                 CalculateResult.Wbx = CalculateResult.Ibx / (Lx / 2);
                 CalculateResult.Wby = CalculateResult.Iby / (Ly / 2);
 
-                CalculateResult.Mbx_ult = Rbt * CalculateResult.Wbx * H0;
-                CalculateResult.Mby_ult = Rbt * CalculateResult.Wby * H0;
+                CalculateResult.Mbx_ult = Rbt * CalculateResult.Wbx * CalculateResult.H0;
+                CalculateResult.Mby_ult = Rbt * CalculateResult.Wby * CalculateResult.H0;
             }
 
-            // 9. Учет поперечной арматуры
             CalculateResult.qsw = 0;
             CalculateResult.Fsw_ult = 0;
             CalculateResult.Msw_x_ult = 0;
@@ -176,13 +164,11 @@ namespace BuilderCalculator.KZH_07_3
                     CalculateResult.Msw_x_ult = 0.8 * CalculateResult.qsw * CalculateResult.Wbx;
                     CalculateResult.Msw_y_ult = 0.8 * CalculateResult.qsw * CalculateResult.Wby;
 
-                    // Ограничение моментов
                     CalculateResult.Msw_x_ult = Math.Min(CalculateResult.Msw_x_ult, CalculateResult.Mbx_ult);
                     CalculateResult.Msw_y_ult = Math.Min(CalculateResult.Msw_y_ult, CalculateResult.Mby_ult);
                 }
             }
 
-            // 10. Определение общих предельных усилий
             CalculateResult.F_ult = CalculateResult.Fb_ult + CalculateResult.Fsw_ult;
 
             if (ConsiderBendingMoments)
@@ -191,7 +177,6 @@ namespace BuilderCalculator.KZH_07_3
                 CalculateResult.My_ult = CalculateResult.Mby_ult + CalculateResult.Msw_y_ult;
             }
 
-            // 11. Проверка условий прочности
             if (!ConsiderBendingMoments)
             {
                 CalculateResult.Result = (currentF <= CalculateResult.F_ult);
@@ -199,7 +184,6 @@ namespace BuilderCalculator.KZH_07_3
             else
             {
                 double denominator = ConsiderShearReinforcement ? CalculateResult.F_ult : CalculateResult.Fb_ult;
-
                 double term1 = (currentMx / CalculateResult.Mx_ult) + (currentMy / CalculateResult.My_ult);
                 double term2 = currentF / (2 * denominator);
                 double sum = (currentF / denominator) + term1;
@@ -207,7 +191,6 @@ namespace BuilderCalculator.KZH_07_3
                 CalculateResult.Result = (term1 <= term2) && (sum <= 1.0);
             }
 
-            // 12. Восстанавливаем исходное значение F
             F = originalF;
 
             return CalculateResult;
