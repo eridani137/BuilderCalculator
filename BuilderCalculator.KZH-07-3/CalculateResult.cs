@@ -32,7 +32,7 @@ namespace BuilderCalculator.KZH_07_3
         [OutputParameter("Предельный изгибающий момент от бетона относительно оси y, кг·см")]
         public double Mby_ult { get; set; }
 
-        [OutputParameter("Интенсивность поперечной арматуры, кг/см2")]
+        [OutputParameter("Интенсивность поперечной арматуры, кг/см")]
         public double qsw { get; set; }
 
         [OutputParameter("Предельная продавливающая сила от поперечной арматуры, кг")]
@@ -71,11 +71,9 @@ namespace BuilderCalculator.KZH_07_3
             double effectiveForce = calculator.F;
             if (calculator.ConsiderSoilReaction)
             {
-                double Fp = calculator.p * (calculator.acy + 2 * H0) * (calculator.bcx + 2 * H0);
-                if (Fp < calculator.F)
-                {
-                    effectiveForce = calculator.F - Fp;
-                }
+                double Fp = calculator.p * (calculator.SizeY + 2 * H0) * (calculator.SizeX + 2 * H0);
+                Fp = Math.Min(Fp, calculator.F);
+                effectiveForce = calculator.F - Fp;
             }
 
             var summary = $@"
