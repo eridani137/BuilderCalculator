@@ -82,7 +82,7 @@ namespace Calculators.KZH_04
         {
             if (!(Calculator is CheckingCrackAndOpeningWidth calculator))
             {
-                throw new BagCalculatorException();
+                throw new BadCalculatorException();
             }
 
             var summary = $@"

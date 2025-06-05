@@ -50,7 +50,7 @@ namespace BuilderCalculator.KZH_07._8
         {
             if (!(Calculator is BearingCapacityPunchingRoundColumn calculator))
             {
-                throw new BagCalculatorException();
+                throw new BadCalculatorException();
             }
 
             var sb = new StringBuilder();

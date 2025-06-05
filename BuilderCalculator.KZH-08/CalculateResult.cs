@@ -46,7 +46,7 @@ namespace BuilderCalculator.KZH_08
         {
             if (!(Calculator is ReinforcedConcreteElementActionTransverseForce calculator))
             {
-                throw new BagCalculatorException();
+                throw new BadCalculatorException();
             }
 
             var sb = new StringBuilder();

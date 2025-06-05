@@ -64,7 +64,7 @@ namespace BuilderCalculator.KZH_07_3
         {
             if (!(Calculator is BearingCapacityPunching calculator))
             {
-                throw new BagCalculatorException();
+                throw new BadCalculatorException();
             }
             
             double effectiveForce = calculator.F;
