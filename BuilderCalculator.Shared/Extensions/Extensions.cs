@@ -35,25 +35,25 @@ namespace Calculators.Shared.Extensions
             }
         }
         
-        public static double GetRbt(this ConcreteClass concreteClass,  double gammaBi)
+        public static double GetRbt(this ConcreteClass concreteClass)
         {
             switch (concreteClass)
             {
-                case ConcreteClass.B10: return 5.71 * gammaBi;
-                case ConcreteClass.B15: return 7.65 * gammaBi;
-                case ConcreteClass.B20: return 9.18 * gammaBi;
-                case ConcreteClass.B25: return 10.71 * gammaBi;
-                case ConcreteClass.B30: return 11.73 * gammaBi;
-                case ConcreteClass.B35: return 13.26 * gammaBi;
-                case ConcreteClass.B40: return 14.28 * gammaBi;
-                case ConcreteClass.B45: return 15.30 * gammaBi;
-                case ConcreteClass.B50: return 16.32 * gammaBi;
-                case ConcreteClass.B55: return 17.34 * gammaBi;
-                case ConcreteClass.B60: return 18.35 * gammaBi;
-                case ConcreteClass.B70: return 19.37 * gammaBi;
-                case ConcreteClass.B80: return 21.41 * gammaBi;
-                case ConcreteClass.B90: return 21.92 * gammaBi;
-                case ConcreteClass.B100: return 22.43 * gammaBi;
+                case ConcreteClass.B10: return 5.71;
+                case ConcreteClass.B15: return 7.65;
+                case ConcreteClass.B20: return 9.18;
+                case ConcreteClass.B25: return 10.71;
+                case ConcreteClass.B30: return 11.73;
+                case ConcreteClass.B35: return 13.26;
+                case ConcreteClass.B40: return 14.28;
+                case ConcreteClass.B45: return 15.30;
+                case ConcreteClass.B50: return 16.32;
+                case ConcreteClass.B55: return 17.34;
+                case ConcreteClass.B60: return 18.35;
+                case ConcreteClass.B70: return 19.37;
+                case ConcreteClass.B80: return 21.41;
+                case ConcreteClass.B90: return 21.92;
+                case ConcreteClass.B100: return 22.43;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
             }

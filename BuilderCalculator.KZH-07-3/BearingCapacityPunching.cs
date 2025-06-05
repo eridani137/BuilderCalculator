@@ -114,7 +114,7 @@ namespace BuilderCalculator.KZH_07_3
                 currentF -= Fp;
             }
 
-            double Rbt = ConcreteClass.GetRbt(GammaB);
+            double Rbt = ConcreteClass.GetRbt() * GammaB;
             double Rsw = ConsiderShearReinforcement ? ReinforcementClass.GetRsw() : 0;
 
             double u = 2 * (SizeX + SizeY + 2 * CalculateResult.H0);

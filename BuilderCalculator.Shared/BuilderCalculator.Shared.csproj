@@ -60,9 +60,9 @@
         <Compile Include="Abstractions\BaseCalculateResult.cs" />
         <Compile Include="Attributes\InputParameterAttribute.cs" />
         <Compile Include="Attributes\OutputParameterAttribute.cs" />
-        <Compile Include="BadCalculatorException.cs" />
         <Compile Include="Enums\ReinforcementClass.cs" />
         <Compile Include="Enums\ConcreteClass.cs" />
+        <Compile Include="Exceptions\BadCalculatorException.cs" />
         <Compile Include="Extensions\Extensions.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>

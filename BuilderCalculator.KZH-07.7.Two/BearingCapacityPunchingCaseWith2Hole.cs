@@ -160,7 +160,7 @@ namespace BuilderCalculator.KZH_07._7.Two
             double Wby = Iby / ymax;
             
             // 2. Расчет характеристик материалов
-            double Rbt = ConcreteClass.GetRbt(GammaBi);
+            double Rbt = ConcreteClass.GetRbt() * GammaBi;
             double Rsw = ReinforcementClass.GetRsw();
             
             // 3. Эффективные усилия

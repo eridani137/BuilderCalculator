@@ -139,7 +139,7 @@ namespace BuilderCalculator.KZH_07._7.One
             double F_abs = Math.Abs(F);
 
             // Шаг 4: Расчет характеристик бетона
-            double Rbt = ConcreteClass.GetRbt(Gamma_bi);
+            double Rbt = ConcreteClass.GetRbt() * Gamma_bi;
 
             // Шаг 5: Расчет несущей способности
             double Fb_ult = Rbt * Ab;

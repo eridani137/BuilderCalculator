@@ -3,6 +3,7 @@ using System.Text;
 using Calculators.Shared;
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
+using Calculators.Shared.Exceptions;
 using Calculators.Shared.Extensions;
 using Spectre.Console;
 

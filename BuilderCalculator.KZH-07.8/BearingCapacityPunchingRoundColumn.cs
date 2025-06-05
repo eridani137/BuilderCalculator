@@ -64,7 +64,7 @@ namespace BuilderCalculator.KZH_07._8
             double Ab = u * h0;
 
             // Получение характеристик материалов с проверкой
-            double Rbt = ConcreteClass.GetRbt(GammaBi);
+            double Rbt = ConcreteClass.GetRbt() * GammaBi;
             double Rsw = ReinforcementClass.GetRsw();
 
             // Расчет параметров бетона

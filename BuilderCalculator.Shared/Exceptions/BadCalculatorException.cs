@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Calculators.Shared
+namespace Calculators.Shared.Exceptions
 {
     public class BadCalculatorException : Exception
     {
