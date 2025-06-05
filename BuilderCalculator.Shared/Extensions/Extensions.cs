@@ -8,10 +8,26 @@ namespace Calculators.Shared.Extensions
     {
         private static readonly Style Style = new Style(Color.Aquamarine1);
         
-        /// <summary>
-        /// Возвращает сопротивление растяжению, кг/см²
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static double GetEb(this ConcreteClass concreteClass)
+        {
+            switch (concreteClass)
+            {
+                case ConcreteClass.B10: return 1.94e5;
+                case ConcreteClass.B15: return 2.45e5;
+                case ConcreteClass.B20: return 2.80e5;
+                case ConcreteClass.B25: return 3.06e5;
+                case ConcreteClass.B30: return 3.31e5;
+                case ConcreteClass.B35: return 3.52e5;
+                case ConcreteClass.B40: return 3.67e5;
+                case ConcreteClass.B45: return 3.77e5;
+                case ConcreteClass.B50: return 3.87e5;
+                case ConcreteClass.B55: return 3.98e5;
+                case ConcreteClass.B60: return 4.03e5;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }
+        }
+        
         public static double GetRbt(this ConcreteClass concreteClass,  double gammaBi)
         {
             switch (concreteClass)
@@ -36,10 +52,6 @@ namespace Calculators.Shared.Extensions
             }
         }
         
-        /// <summary>
-        /// Возвращает модуль упругости арматуры, кг/см²
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static double GetRsw(this ReinforcementClass reinforcementClass)
         {
             switch (reinforcementClass)

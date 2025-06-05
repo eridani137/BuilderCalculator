@@ -2,6 +2,7 @@
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Enums;
+using Calculators.Shared.Extensions;
 
 namespace Calculators.KZH_04
 {
@@ -123,7 +124,7 @@ namespace Calculators.KZH_04
         private void CalculateCrackingMoment()
         {
             double Es = ReinforcementClass.GetElasticityModule();
-            double Eb = ConcreteClass.GetElasticityModule();
+            double Eb = ConcreteClass.GetEb();
             double alpha = Es / Eb;
             double A = b * h;
             double A_red_temp = A + As * alpha + As_prime * alpha;
