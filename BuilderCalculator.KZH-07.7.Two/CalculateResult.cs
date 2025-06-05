@@ -141,7 +141,7 @@ namespace BuilderCalculator.KZH_07._7.Two
                 ? "РЕЗУЛЬТАТ: ПРОЧНОСТЬ ОБЕСПЕЧЕНА".MarkupSecondaryColor()
                 : "РЕЗУЛЬТАТ: ПРОЧНОСТЬ НЕ ОБЕСПЕЧЕНА".MarkupErrorColor());
             
-            AnsiConsole.MarkupLine(sb.ToString().EscapeMarkup());
+            AnsiConsole.MarkupLine(sb.ToString());
         }
     }
 }

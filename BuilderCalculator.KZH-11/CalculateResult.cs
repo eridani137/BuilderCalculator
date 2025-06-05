@@ -53,7 +53,7 @@ namespace BuilderCalculator.KZH_11
             sb.AppendLine($"N·e' = {Ne_prime:E} кг·см");
             sb.AppendLine($"Прочность {(Result ? "обеспечена".MarkupSecondaryColor() : "не обеспечена".MarkupErrorColor())}");
             
-            AnsiConsole.MarkupLine(sb.ToString().EscapeMarkup());
+            AnsiConsole.MarkupLine(sb.ToString());
         }
     }
 }

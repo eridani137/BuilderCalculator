@@ -14,6 +14,29 @@ namespace Calculators.Shared.Extensions
             if (value > max) return max;
             return value;
         }
+
+        public static double GetRb(this ConcreteClass concreteClass)
+        {
+            switch (concreteClass)
+            {
+                case ConcreteClass.B10: return 61.2;
+                case ConcreteClass.B15: return 86.6;
+                case ConcreteClass.B20: return 117.2;
+                case ConcreteClass.B25: return 147.8;
+                case ConcreteClass.B30: return 173.3;
+                case ConcreteClass.B35: return 198.8;
+                case ConcreteClass.B40: return 224.3;
+                case ConcreteClass.B45: return 254.8;
+                case ConcreteClass.B50: return 280.3;
+                case ConcreteClass.B55: return 305.8;
+                case ConcreteClass.B70: return 377.2;
+                case ConcreteClass.B80: return 417.9;
+                case ConcreteClass.B90: return 448.5;
+                case ConcreteClass.B100: return 484.2;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }
+        }
         
         public static double GetEb(this ConcreteClass concreteClass)
         {

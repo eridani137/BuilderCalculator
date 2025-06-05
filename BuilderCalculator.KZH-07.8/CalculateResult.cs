@@ -77,7 +77,7 @@ namespace BuilderCalculator.KZH_07._8
                 sb.AppendLine($"Соотношение M/M_ult: {M / M_ult:F2}");
             }
             
-            AnsiConsole.MarkupLine(sb.ToString().EscapeMarkup());
+            AnsiConsole.MarkupLine(sb.ToString());
         }
     }
 }

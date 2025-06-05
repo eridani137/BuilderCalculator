@@ -4,7 +4,7 @@ namespace BuilderCalculator.KZH_12
     {
         public static void Main()
         {
-            new Calculator().Run();
+            new BearingCapacityPunchingColumnAtCorner().Run();
         }
     }
 }

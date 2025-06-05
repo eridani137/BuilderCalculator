@@ -68,7 +68,7 @@ namespace BuilderCalculator.KZH_08
             sb.AppendLine($"Шаг хомутов: {calculator.sw} см ≤ 0.5h0 = {0.5 * calculator.h0} см -> {calculator.sw <= 0.5 * calculator.h0}");
             sb.AppendLine($"Qb_min = {0.5 * calculator.ConcreteClass.GetRbt() * calculator.b * calculator.h0:F0} кг");
             
-            AnsiConsole.MarkupLine(sb.ToString().EscapeMarkup());
+            AnsiConsole.MarkupLine(sb.ToString());
         }
     }
 }
