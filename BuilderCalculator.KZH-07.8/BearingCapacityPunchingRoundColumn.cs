@@ -59,73 +59,73 @@ namespace BuilderCalculator.KZH_07._8
 
         public override BaseCalculateResult Calculate()
         {
-            double h0 = h - a; // Рабочая высота сечения
-            double u = Math.PI * (D + h0); // Периметр контура продавливания
-            double Ab = u * h0; // Площадь контура продавливания
+            double h0 = h - a;
+            double u = Math.PI * (D + h0);
+            double Ab = u * h0;
 
-            // 2. Расчетные сопротивления материалов
+            // Получение характеристик материалов с проверкой
             double Rbt = ConcreteClass.GetRbt(GammaBi);
             double Rsw = ReinforcementClass.GetRsw();
 
-            // 3. Расчет для бетона
+            // Расчет параметров бетона
             CalculateResult.Fb_ult = Rbt * Ab;
             CalculateResult.Wb = Math.PI * Math.Pow(D + h0, 2) / 4;
             CalculateResult.Mb_ult = Rbt * CalculateResult.Wb * h0;
 
-            // 4. Расчет для арматуры (если учитывается)
+            // Инициализация параметров арматуры
             CalculateResult.qsw = 0;
             CalculateResult.Fsw_ult = 0;
             CalculateResult.Msw_ult = 0;
-            CalculateResult.Wsw = CalculateResult.Wb; // По умолчанию равен Wb
+            CalculateResult.Wsw = CalculateResult.Wb;
 
-            if (ConsiderShearReinforcement)
+            if (ConsiderShearReinforcement && Asw > 0 && Sw > 0)
             {
                 CalculateResult.qsw = Rsw * Asw / Sw;
                 CalculateResult.Fsw_ult = 0.8 * CalculateResult.qsw * u;
 
-                // Проверка ограничений для Fsw_ult
-                if (CalculateResult.Fsw_ult < 0.25 * CalculateResult.Fb_ult)
-                {
-                    CalculateResult.Fsw_ult = 0.25 * CalculateResult.Fb_ult;
-                }
-
-                if (CalculateResult.Fsw_ult > CalculateResult.Fb_ult)
-                {
-                    CalculateResult.Fsw_ult = CalculateResult.Fb_ult;
-                }
+                // Корректировка Fsw_ult согласно п.8.1.48 СП
+                CalculateResult.Fsw_ult = Math.Max(CalculateResult.Fsw_ult, 0.25 * CalculateResult.Fb_ult);
+                CalculateResult.Fsw_ult = Math.Min(CalculateResult.Fsw_ult, CalculateResult.Fb_ult);
 
                 // Расчет момента для арматуры
                 CalculateResult.Msw_ult = 0.8 * CalculateResult.qsw * CalculateResult.Wsw;
+                
+                // Корректировка Msw_ult согласно п.8.1.50 СП
                 if (CalculateResult.Msw_ult > CalculateResult.Mb_ult)
                 {
                     CalculateResult.Msw_ult = CalculateResult.Mb_ult;
                 }
             }
 
-            // 5. Расчет результирующих усилий
-            CalculateResult.F_ult = CalculateResult.Fb_ult + (ConsiderShearReinforcement ? CalculateResult.Fsw_ult : 0);
-            CalculateResult.M_ult = CalculateResult.Mb_ult + (ConsiderShearReinforcement ? CalculateResult.Msw_ult : 0);
+            // Расчет результирующих усилий
+            CalculateResult.F_ult = CalculateResult.Fb_ult + 
+                                  (ConsiderShearReinforcement ? CalculateResult.Fsw_ult : 0);
+            
+            CalculateResult.M_ult = CalculateResult.Mb_ult + 
+                                  (ConsiderShearReinforcement ? CalculateResult.Msw_ult : 0);
 
-            // 6. Расчет результирующего момента
+            // Расчет результирующего момента
             CalculateResult.M = 0;
-            if (ConsiderBendingMoments)
+            if (ConsiderBendingMoments && (Math.Abs(Mx) > 0.001 || Math.Abs(My) > 0.001))
             {
                 double mx = DivideMomentsByHalf ? Mx / 2 : Mx;
                 double my = DivideMomentsByHalf ? My / 2 : My;
                 CalculateResult.M = Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2));
             }
 
-            // 7. Проверка условий прочности
-            if (ConsiderBendingMoments)
+            // Проверка условий прочности
+            if (ConsiderBendingMoments && CalculateResult.M > 0.001)
             {
-                double condition1 = CalculateResult.M / CalculateResult.M_ult;
-                double condition2 = F / (2 * CalculateResult.F_ult);
-                double condition3 = F / CalculateResult.F_ult + CalculateResult.M / CalculateResult.M_ult;
+                // Условия согласно п.8.1.49 СП
+                double leftPart = CalculateResult.M / CalculateResult.M_ult;
+                double rightPart = F / (2 * CalculateResult.F_ult);
+                double combined = F / CalculateResult.F_ult + CalculateResult.M / CalculateResult.M_ult;
 
-                CalculateResult.Result = (condition1 <= condition2) && (condition3 <= 1);
+                CalculateResult.Result = (leftPart <= rightPart) && (combined <= 1);
             }
             else
             {
+                // Проверка без учета моментов
                 CalculateResult.Result = F <= CalculateResult.F_ult;
             }
 
