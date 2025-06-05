@@ -2,6 +2,7 @@
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Enums;
+using Calculators.Shared.Extensions;
 
 namespace BuilderCalculator.KZH_08
 {
@@ -44,7 +45,7 @@ namespace BuilderCalculator.KZH_08
         [InputParameter("Шаг поперечной арматуры sw (см)")]
         public double sw { get; set; } = 20;
     
-        [InputParameter("Площадь продольной арматуры As (см²)")]
+        [InputParameter("Площадь растянутой арматуры As (см²)")]
         public double As { get; set; } = 10;
     
         [InputParameter("Площадь сжатой арматуры A's (см²)")]
@@ -60,17 +61,66 @@ namespace BuilderCalculator.KZH_08
         public ReinforcementClass LongReinfClass { get; set; } = ReinforcementClass.A400;
     
         [InputParameter("Класс поперечной арматуры")]
-        public ReinforcementClass TransReinfClass { get; set; } = ReinforcementClass.A240;
+        public ReinforcementClass TransReinfClass { get; set; } = ReinforcementClass.A400;
 
         
         public override BaseCalculateResult Calculate()
         {
-            if (Math.Abs(h0) < 0.001)
+            // Автоматический расчет h0 если не задан
+            if (h0 <= 0.001)
             {
                 h0 = h - a;
             }
+
+            // 1. Определение характеристик бетона
+            double Eb = ConcreteClass.GetEb();
+            double Rb = ConcreteClass.GetRb() * gamma_b;
+            double Rbt = ConcreteClass.GetRbt() * gamma_b;
+        
+            // 2. Определение характеристик арматуры
+            double Es = 2.04e6;
+            double Rs = LongReinfClass.GetRs();
+            double Rsw = TransReinfClass.GetRsw();
             
+            // 3. Расчет коэффициентов
+            double alpha = Es / Eb;
+            double Ab = b * h - As - As_comp;
+            CalculateResult.sigma_cp = Math.Abs(N) / (Ab + alpha * (As + As_comp));
+            CalculateResult.phi_n = 1 + CalculateResult.sigma_cp / Rb;
             
+            // 4. Проверка прочности между трещинами
+            double phi_b1 = 0.3;
+            double Q_check1 = CalculateResult.phi_n * phi_b1 * Rb * b * h0;
+            bool check1 = Q <= Q_check1;
+            
+            // 5. Проверка прочности на поперечную силу
+            double phi_b2 = 1.5;
+            double phi_sw = 0.75;
+            double C = 3 * h0; // Максимальная проекция
+            double C0 = Math.Min(C, 2 * h0);
+            
+            // Расчет Qb с ограничениями
+            double Qb_base = CalculateResult.phi_n * phi_b2 * Rbt * b * Math.Pow(h0, 2) / C;
+            double Qb_min = 0.5 * Rbt * b * h0;
+            double Qb_max = 2.5 * Rbt * b * h0;
+            CalculateResult.Qb = Qb_base.Clamp(Qb_min, Qb_max);
+        
+            CalculateResult.qsw = Rsw * Asw / sw;
+            double Qsw_trans = phi_sw * CalculateResult.qsw * C0;
+            double qC = q * C;
+            bool check2 = Q <= CalculateResult.Qb + Qsw_trans + qC;
+            
+            // 6. Проверка прочности на изгибающий момент
+            double C_moment = h0; // Минимальная проекция
+            double C0_moment = Math.Min(C_moment, 2 * h0);
+            CalculateResult.zs = 0.9 * h0;
+            CalculateResult.Ns = Rs * As;
+            CalculateResult.Ms = CalculateResult.Ns * CalculateResult.zs;
+            CalculateResult.Qsw = CalculateResult.qsw * C0_moment;
+            CalculateResult.Msw = 0.5 * CalculateResult.Qsw * C0_moment;
+            bool check3 = M <= CalculateResult.Ms + CalculateResult.Msw;
+
+            CalculateResult.Result = check1 && check2 && check3;
 
             return CalculateResult;
         }

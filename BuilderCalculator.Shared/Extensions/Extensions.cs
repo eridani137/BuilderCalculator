@@ -8,6 +8,13 @@ namespace Calculators.Shared.Extensions
     {
         private static readonly Style Style = new Style(Color.Aquamarine1);
         
+        public static double Clamp(this double value, double min, double max)
+        {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
+        
         public static double GetEb(this ConcreteClass concreteClass)
         {
             switch (concreteClass)
@@ -49,6 +56,22 @@ namespace Calculators.Shared.Extensions
                 case ConcreteClass.B100: return 22.43 * gammaBi;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }
+        }
+        
+        public static double GetRs(this ReinforcementClass reinforcementClass)
+        {
+            switch (reinforcementClass)
+            {
+                case ReinforcementClass.A240: return 2141;
+                case ReinforcementClass.A400: return 3569;
+                case ReinforcementClass.A500: return 4436;
+                case ReinforcementClass.A500SP: return 4589;
+                case ReinforcementClass.A600SP: return 5303;
+                case ReinforcementClass.AU500SP: return 4589;
+                case ReinforcementClass.B500: return 4436;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
             }
         }
         

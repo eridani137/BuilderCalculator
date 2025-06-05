@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Calculators.Shared;
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
@@ -64,9 +63,9 @@ namespace BuilderCalculator.KZH_08
             sb.AppendLine($"M_sw = {Msw:E} кг*см");
             sb.AppendLine($"Прочность {(Result ? "обеспечена".MarkupSecondaryColor() : "не обеспечена".MarkupErrorColor())}");
         
-            sb.AppendLine("\nДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ:");
+            sb.AppendLine("ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ:");
             sb.AppendLine($"Шаг хомутов: {calculator.sw} см ≤ 0.5h0 = {0.5 * calculator.h0} см -> {calculator.sw <= 0.5 * calculator.h0}");
-            // Console.WriteLine($"Qb_min = {0.5 * calculator.concreteProps[calculator.ConcreteClass].Rbt * calculator.b * calculator.h0:F0} кг");
+            sb.AppendLine($"Qb_min = {0.5 * calculator.ConcreteClass.GetRbt() * calculator.b * calculator.h0:F0} кг");
             
             AnsiConsole.MarkupLine(sb.ToString().EscapeMarkup());
         }
