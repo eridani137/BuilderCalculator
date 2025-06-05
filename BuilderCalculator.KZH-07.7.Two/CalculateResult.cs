@@ -89,11 +89,6 @@ namespace BuilderCalculator.KZH_07._7.Two
 
         public override void PrintSummary()
         {
-            if (!(Calculator is Calculator calculator))
-            {
-                throw new ApplicationException("Задан неверный тип калькулятора");
-            }
-
             var sb = new StringBuilder();
             sb.AppendLine("=== РЕЗУЛЬТАТЫ РАСЧЕТА НА ПРОДАВЛИВАНИЕ ===");
             sb.AppendLine();

@@ -88,11 +88,6 @@ namespace BuilderCalculator.KZH_07._7.One
 
         public override void PrintSummary()
         {
-            if (!(Calculator is Calculator calculator))
-            {
-                throw new ApplicationException("Задан неверный тип калькулятора");
-            }
-
             var summary = $@"
 ===== РЕЗУЛЬТАТЫ РАСЧЕТА НА ПРОДАВЛИВАНИЕ =====
 Предельная несущая способность: {F_ult:F2} кгс

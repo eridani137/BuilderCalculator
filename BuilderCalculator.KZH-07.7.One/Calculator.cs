@@ -67,16 +67,16 @@ namespace BuilderCalculator.KZH_07._7.One
         [InputParameter("Периметр отверстия, см")]
         public double u_prime { get; set; } = 24.9;
 
-        [InputParameter("Момент инерции отверстия относительно оси Y, см⁴")]
+        [InputParameter("Момент инерции отверстия относительно оси Y, см4")]
         public double Iby_prime { get; set; } = 18443;
 
-        [InputParameter("Момент инерции отверстия относительно оси X, см⁴")]
+        [InputParameter("Момент инерции отверстия относительно оси X, см4")]
         public double Ibx_prime { get; set; } = 15022;
 
-        [InputParameter("Статический момент отверстия относительно оси Y, см³")]
+        [InputParameter("Статический момент отверстия относительно оси Y, см3")]
         public double Sy_prime { get; set; } = 677.4;
 
-        [InputParameter("Статический момент отверстия относительно оси X, см³")]
+        [InputParameter("Статический момент отверстия относительно оси X, см3")]
         public double Sx_prime { get; set; } = 588.0;
 
         [InputParameter("Направление усилия F (0 - снизу вверх, 1 - сверху вниз)")]
@@ -99,7 +99,7 @@ namespace BuilderCalculator.KZH_07._7.One
         [InputParameter("Класс арматуры")]
         public ReinforcementClass ReinforcementClass { get; set; } = ReinforcementClass.A400;
 
-        [InputParameter("Площадь поперечной арматуры, см²")]
+        [InputParameter("Площадь поперечной арматуры, см2")]
         public double A_sw { get; set; } = 1.06;
 
         [InputParameter("Шаг поперечной арматуры, см")]
