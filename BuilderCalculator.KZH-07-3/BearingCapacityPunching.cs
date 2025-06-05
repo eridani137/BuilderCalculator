@@ -6,16 +6,16 @@ using Calculators.Shared.Extensions;
 
 namespace BuilderCalculator.KZH_07_3
 {
-    public class Calculator : BaseBuilderCalculator
+    public class BearingCapacityPunching : BaseBuilderCalculator
     {
         private CalculateResult CalculateResult { get; set; }
 
-        public Calculator()
+        public BearingCapacityPunching()
         {
             CalculateResult = new CalculateResult(this);
         }
 
-        public Calculator(double f, bool considerBendingMoments, double mx, double my,
+        public BearingCapacityPunching(double f, bool considerBendingMoments, double mx, double my,
             bool divideMomentsByTwo, bool considerSoilReaction, double p, double sizeX, double sizeY, double h,
             double a, ConcreteClass concreteClass, double gammaB, bool considerShearReinforcement,
             ReinforcementClass reinforcementClass, double asw, double sw)

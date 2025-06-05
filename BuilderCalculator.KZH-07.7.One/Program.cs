@@ -4,7 +4,7 @@ namespace BuilderCalculator.KZH_07._7.One
     {
         public static void Main(string[] args)
         {
-            new Calculator().Run();
+            new BearingCapacityPunchingCaseWithHole().Run();
         }
     }
 }

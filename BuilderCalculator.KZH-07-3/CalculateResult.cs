@@ -8,6 +8,10 @@ namespace BuilderCalculator.KZH_07_3
 {
     public class CalculateResult : BaseCalculateResult
     {
+        public CalculateResult(BaseBuilderCalculator calculator) : base(calculator)
+        {
+        }
+        
         [OutputParameter("Рабочая высота сечения, см")]
         public double H0 { get; set; }
 
@@ -55,18 +59,13 @@ namespace BuilderCalculator.KZH_07_3
 
         public bool Result { get; set; }
 
-        public CalculateResult(Calculator calculator) : base(calculator)
-        {
-        }
-
         public override void PrintSummary()
         {
-            if (!(Calculator is Calculator calculator))
+            if (!(Calculator is BearingCapacityPunching calculator))
             {
                 throw new ApplicationException("Задан неверный тип калькулятора");
             }
             
-            // Вычисляем эффективную силу с учетом отпора грунта
             double effectiveForce = calculator.F;
             if (calculator.ConsiderSoilReaction)
             {

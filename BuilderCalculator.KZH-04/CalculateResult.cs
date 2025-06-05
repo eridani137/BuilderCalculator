@@ -8,7 +8,7 @@ namespace Calculators.KZH_04
 {
     public class CalculateResult : BaseCalculateResult
     {
-        public CalculateResult(Calculator calculator) : base(calculator)
+        public CalculateResult(BaseBuilderCalculator calculator) : base(calculator)
         {
         }
 
@@ -79,7 +79,7 @@ namespace Calculators.KZH_04
 
         public override void PrintSummary()
         {
-            if (!(Calculator is Calculator calculator))
+            if (!(Calculator is CheckingCrackAndOpeningWidth calculator))
             {
                 throw new ApplicationException("Задан неверный тип калькулятора");
             }

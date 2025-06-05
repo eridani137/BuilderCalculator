@@ -1,23 +1,20 @@
 ﻿using System;
-using Calculators.Shared;
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Enums;
-using Calculators.Shared.Extensions;
-using Spectre.Console;
 
 namespace Calculators.KZH_04
 {
-    public class Calculator : BaseBuilderCalculator
+    public class CheckingCrackAndOpeningWidth : BaseBuilderCalculator
     {
         private CalculateResult CalculateResult { get; set; }
 
-        public Calculator()
+        public CheckingCrackAndOpeningWidth()
         {
             CalculateResult = new CalculateResult(this);
         }
 
-        public Calculator(double m, double ml, bool considerAxialForce, double n,
+        public CheckingCrackAndOpeningWidth(double m, double ml, bool considerAxialForce, double n,
             double nl, double b, double h, double a, double aPrime, double @as, double asPrime, double ds,
             ConcreteClass concreteClass, ReinforcementClass reinforcementClass, double acrcUltL, double acrcUlt,
             double h0, double h0Prime, double phi2, double phi3, double epsilonB1Red)

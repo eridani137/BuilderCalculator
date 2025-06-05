@@ -1,5 +1,4 @@
-﻿using System;
-using Calculators.Shared.Abstractions;
+﻿using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Extensions;
 using Spectre.Console;
