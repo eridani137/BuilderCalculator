@@ -72,7 +72,7 @@ namespace BuilderCalculator.KZH_07_3
         [InputParameter("Защитный слой бетона растянутой зоны, см")]
         public double a { get; set; } = 5.0;
 
-        [InputParameter("Класс бетона на сжатие")]
+        [InputParameter("Класс бетона")]
         public ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B50;
 
         [InputParameter("Коэффициент условий работы бетона")]
