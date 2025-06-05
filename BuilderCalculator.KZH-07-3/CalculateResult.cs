@@ -1,4 +1,5 @@
 ﻿using System;
+using Calculators.Shared;
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Extensions;
@@ -63,7 +64,7 @@ namespace BuilderCalculator.KZH_07_3
         {
             if (!(Calculator is BearingCapacityPunching calculator))
             {
-                throw new ApplicationException("Задан неверный тип калькулятора");
+                throw new BagCalculatorException();
             }
             
             double effectiveForce = calculator.F;

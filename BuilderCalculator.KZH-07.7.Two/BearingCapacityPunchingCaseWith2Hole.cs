@@ -45,16 +45,16 @@ namespace BuilderCalculator.KZH_07._7.Two
         }
 
         [InputParameter("Сосредоточенная сила, кгс")]
-        public double F { get; set; } = 20000;
+        public double F { get; set; } = 1e4;
 
         [InputParameter("Направление усилия F (0 - снизу вверх, 1 - сверху вниз)")]
         public int FDirection { get; set; } = 0;
 
         [InputParameter("Изгибающий момент вдоль оси X, кг·см")]
-        public double Mx { get; set; } = 100000;
+        public double Mx { get; set; } = 1e5;
 
         [InputParameter("Изгибающий момент вдоль оси Y, кг·см")]
-        public double My { get; set; } = 120000;
+        public double My { get; set; } = 1.2e5;
 
         [InputParameter("Делить изгибающие моменты пополам")]
         public bool DivideM { get; set; } = false;

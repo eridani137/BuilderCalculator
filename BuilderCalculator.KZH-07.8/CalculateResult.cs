@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Calculators.Shared;
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Extensions;
@@ -49,7 +50,7 @@ namespace BuilderCalculator.KZH_07._8
         {
             if (!(Calculator is BearingCapacityPunchingRoundColumn calculator))
             {
-                throw new ApplicationException("Задан неверный тип калькулятора");
+                throw new BagCalculatorException();
             }
 
             var sb = new StringBuilder();

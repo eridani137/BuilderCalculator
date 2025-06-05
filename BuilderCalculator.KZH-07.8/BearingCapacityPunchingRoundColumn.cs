@@ -8,21 +8,21 @@ namespace BuilderCalculator.KZH_07._8
 {
     public class BearingCapacityPunchingRoundColumn : BaseBuilderCalculator
     {
-        private CalculateResult CalculateResult { get; set; }
+        private readonly CalculateResult _calculateResult;
 
         public BearingCapacityPunchingRoundColumn()
         {
-            CalculateResult = new CalculateResult(this);
+            _calculateResult = new CalculateResult(this);
         }
 
         [InputParameter("Сосредоточенная сила, кг")]
-        public double F { get; set; } = 20000;
+        public double F { get; set; } = 2e4;
 
         [InputParameter("Изгибающий момент вдоль оси X, кг·см")]
-        public double Mx { get; set; } = 100_000;
+        public double Mx { get; set; } = 1e5;
 
         [InputParameter("Изгибающий момент вдоль оси Y, кг·см")]
-        public double My { get; set; } = 120_000;
+        public double My { get; set; } = 1.2e5;
 
         [InputParameter("Учитывать изгибающие моменты")]
         public bool ConsiderBendingMoments { get; set; } = true;
@@ -68,68 +68,68 @@ namespace BuilderCalculator.KZH_07._8
             double Rsw = ReinforcementClass.GetRsw();
 
             // Расчет параметров бетона
-            CalculateResult.Fb_ult = Rbt * Ab;
-            CalculateResult.Wb = Math.PI * Math.Pow(D + h0, 2) / 4;
-            CalculateResult.Mb_ult = Rbt * CalculateResult.Wb * h0;
+            _calculateResult.Fb_ult = Rbt * Ab;
+            _calculateResult.Wb = Math.PI * Math.Pow(D + h0, 2) / 4;
+            _calculateResult.Mb_ult = Rbt * _calculateResult.Wb * h0;
 
             // Инициализация параметров арматуры
-            CalculateResult.qsw = 0;
-            CalculateResult.Fsw_ult = 0;
-            CalculateResult.Msw_ult = 0;
-            CalculateResult.Wsw = CalculateResult.Wb;
+            _calculateResult.qsw = 0;
+            _calculateResult.Fsw_ult = 0;
+            _calculateResult.Msw_ult = 0;
+            _calculateResult.Wsw = _calculateResult.Wb;
 
             if (ConsiderShearReinforcement && Asw > 0 && Sw > 0)
             {
-                CalculateResult.qsw = Rsw * Asw / Sw;
-                CalculateResult.Fsw_ult = 0.8 * CalculateResult.qsw * u;
+                _calculateResult.qsw = Rsw * Asw / Sw;
+                _calculateResult.Fsw_ult = 0.8 * _calculateResult.qsw * u;
 
                 // Корректировка Fsw_ult согласно п.8.1.48 СП
-                CalculateResult.Fsw_ult = Math.Max(CalculateResult.Fsw_ult, 0.25 * CalculateResult.Fb_ult);
-                CalculateResult.Fsw_ult = Math.Min(CalculateResult.Fsw_ult, CalculateResult.Fb_ult);
+                _calculateResult.Fsw_ult = Math.Max(_calculateResult.Fsw_ult, 0.25 * _calculateResult.Fb_ult);
+                _calculateResult.Fsw_ult = Math.Min(_calculateResult.Fsw_ult, _calculateResult.Fb_ult);
 
                 // Расчет момента для арматуры
-                CalculateResult.Msw_ult = 0.8 * CalculateResult.qsw * CalculateResult.Wsw;
+                _calculateResult.Msw_ult = 0.8 * _calculateResult.qsw * _calculateResult.Wsw;
                 
                 // Корректировка Msw_ult согласно п.8.1.50 СП
-                if (CalculateResult.Msw_ult > CalculateResult.Mb_ult)
+                if (_calculateResult.Msw_ult > _calculateResult.Mb_ult)
                 {
-                    CalculateResult.Msw_ult = CalculateResult.Mb_ult;
+                    _calculateResult.Msw_ult = _calculateResult.Mb_ult;
                 }
             }
 
             // Расчет результирующих усилий
-            CalculateResult.F_ult = CalculateResult.Fb_ult + 
-                                  (ConsiderShearReinforcement ? CalculateResult.Fsw_ult : 0);
+            _calculateResult.F_ult = _calculateResult.Fb_ult + 
+                                  (ConsiderShearReinforcement ? _calculateResult.Fsw_ult : 0);
             
-            CalculateResult.M_ult = CalculateResult.Mb_ult + 
-                                  (ConsiderShearReinforcement ? CalculateResult.Msw_ult : 0);
+            _calculateResult.M_ult = _calculateResult.Mb_ult + 
+                                  (ConsiderShearReinforcement ? _calculateResult.Msw_ult : 0);
 
             // Расчет результирующего момента
-            CalculateResult.M = 0;
+            _calculateResult.M = 0;
             if (ConsiderBendingMoments && (Math.Abs(Mx) > 0.001 || Math.Abs(My) > 0.001))
             {
                 double mx = DivideMomentsByHalf ? Mx / 2 : Mx;
                 double my = DivideMomentsByHalf ? My / 2 : My;
-                CalculateResult.M = Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2));
+                _calculateResult.M = Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2));
             }
 
             // Проверка условий прочности
-            if (ConsiderBendingMoments && CalculateResult.M > 0.001)
+            if (ConsiderBendingMoments && _calculateResult.M > 0.001)
             {
                 // Условия согласно п.8.1.49 СП
-                double leftPart = CalculateResult.M / CalculateResult.M_ult;
-                double rightPart = F / (2 * CalculateResult.F_ult);
-                double combined = F / CalculateResult.F_ult + CalculateResult.M / CalculateResult.M_ult;
+                double leftPart = _calculateResult.M / _calculateResult.M_ult;
+                double rightPart = F / (2 * _calculateResult.F_ult);
+                double combined = F / _calculateResult.F_ult + _calculateResult.M / _calculateResult.M_ult;
 
-                CalculateResult.Result = (leftPart <= rightPart) && (combined <= 1);
+                _calculateResult.Result = (leftPart <= rightPart) && (combined <= 1);
             }
             else
             {
                 // Проверка без учета моментов
-                CalculateResult.Result = F <= CalculateResult.F_ult;
+                _calculateResult.Result = F <= _calculateResult.F_ult;
             }
 
-            return CalculateResult;
+            return _calculateResult;
         }
     }
 }

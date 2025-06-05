@@ -41,16 +41,16 @@ namespace BuilderCalculator.KZH_07_3
         }
 
         [InputParameter("Сосредоточенная сила от внешней нагрузки, кг")]
-        public double F { get; set; } = 20000;
+        public double F { get; set; } = 2e4;
 
         [InputParameter("Учесть изгибающие моменты")]
         public bool ConsiderBendingMoments { get; set; } = true;
 
         [InputParameter("Изгибающий момент вдоль оси x, кг·см")]
-        public double Mx { get; set; } = 100000;
+        public double Mx { get; set; } = 1e5;
 
         [InputParameter("Изгибающий момент вдоль оси y, кг·см")]
-        public double My { get; set; } = 120000;
+        public double My { get; set; } = 1.2e5;
 
         [InputParameter("Делить изгибающие моменты пополам")]
         public bool DivideMomentsByTwo { get; set; } = true;
@@ -67,7 +67,8 @@ namespace BuilderCalculator.KZH_07_3
         [InputParameter("Длина зоны приложения нагрузки (a_cy), см")]
         public double SizeY { get; set; } = 40.0;
 
-        [InputParameter("Высота сечения, см")] public double h { get; set; } = 20.0;
+        [InputParameter("Высота сечения, см")] 
+        public double h { get; set; } = 20.0;
 
         [InputParameter("Защитный слой бетона растянутой зоны, см")]
         public double a { get; set; } = 5.0;

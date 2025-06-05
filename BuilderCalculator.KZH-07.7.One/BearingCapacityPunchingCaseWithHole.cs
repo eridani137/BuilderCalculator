@@ -45,13 +45,13 @@ namespace BuilderCalculator.KZH_07._7.One
         }
 
         [InputParameter("Сосредоточенная сила, кгс")]
-        public double F { get; set; } = 20000;
+        public double F { get; set; } = 2e4;
 
         [InputParameter("Изгибающий момент Mx, кгс·см")]
-        public double Mx { get; set; } = 100000;
+        public double Mx { get; set; } = 1e5;
 
         [InputParameter("Изгибающий момент My, кгс·см")]
-        public double My { get; set; } = 120000;
+        public double My { get; set; } = 1.2e5;
 
         [InputParameter("Толщина плиты, см")] public double h { get; set; } = 20;
 

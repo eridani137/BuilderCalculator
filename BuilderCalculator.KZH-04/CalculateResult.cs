@@ -1,4 +1,5 @@
 ﻿using System;
+using Calculators.Shared;
 using Calculators.Shared.Abstractions;
 using Calculators.Shared.Attributes;
 using Calculators.Shared.Extensions;
@@ -81,7 +82,7 @@ namespace Calculators.KZH_04
         {
             if (!(Calculator is CheckingCrackAndOpeningWidth calculator))
             {
-                throw new ApplicationException("Задан неверный тип калькулятора");
+                throw new BagCalculatorException();
             }
 
             var summary = $@"

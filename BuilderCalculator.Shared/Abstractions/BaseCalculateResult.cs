@@ -6,7 +6,7 @@ namespace Calculators.Shared.Abstractions
 {
     public abstract class BaseCalculateResult
     {
-        protected BaseBuilderCalculator Calculator;
+        protected readonly BaseBuilderCalculator Calculator;
 
         protected BaseCalculateResult(BaseBuilderCalculator calculator)
         {
