@@ -89,52 +89,62 @@ namespace BuilderCalculator.KZH_08
 
         public override BaseCalculateResult Calculate()
         {
-            // Автоматический расчет h0 если не задан
             if (h0 <= 0.001)
             {
                 h0 = h - a;
             }
 
-            // 1. Определение характеристик бетона
             double Eb = ConcreteClass.GetEb();
             double Rb = ConcreteClass.GetRb() * gamma_b;
             double Rbt = ConcreteClass.GetRbt() * gamma_b;
 
-            // 2. Определение характеристик арматуры
             double Es = 2.04e6;
             double Rs = LongReinfClass.GetRs();
             double Rsw = TransReinfClass.GetRsw();
 
-            // 3. Расчет коэффициентов
             double alpha = Es / Eb;
             double Ab = b * h - As - As_comp;
             CalculateResult.sigma_cp = Math.Abs(N) / (Ab + alpha * (As + As_comp));
             CalculateResult.phi_n = 1 + CalculateResult.sigma_cp / Rb;
 
-            // 4. Проверка прочности между трещинами
+            // Проверка 1: между наклонными трещинами
             double phi_b1 = 0.3;
             double Q_check1 = CalculateResult.phi_n * phi_b1 * Rb * b * h0;
             bool check1 = Q <= Q_check1;
 
-            // 5. Проверка прочности на поперечную силу
+            // Проверка 2: поперечная сила
             double phi_b2 = 1.5;
             double phi_sw = 0.75;
-            double C = 3 * h0; // Максимальная проекция
-            double C0 = Math.Min(C, 2 * h0);
-
-            // Расчет Qb с ограничениями
-            double Qb_base = CalculateResult.phi_n * phi_b2 * Rbt * b * Math.Pow(h0, 2) / C;
             double Qb_min = 0.5 * Rbt * b * h0;
             double Qb_max = 2.5 * Rbt * b * h0;
-            CalculateResult.Qb = Qb_base.Clamp(Qb_min, Qb_max);
-
             CalculateResult.qsw = Rsw * Asw / sw;
-            double Qsw_trans = phi_sw * CalculateResult.qsw * C0;
-            double qC = q * C;
-            bool check2 = Q <= CalculateResult.Qb + Qsw_trans + qC;
 
-            // 6. Проверка прочности на изгибающий момент
-            double C_moment = h0; // Минимальная проекция
+            // Проверка условий для поперечной арматуры
+            double sw_max = Rbt * b * h0 * h0 / Q;
+            double qsw_min = 0.25 * Rbt * b;
+            bool rebarCheck = sw <= sw_max && CalculateResult.qsw >= qsw_min;
+
+            // Поиск минимального Q_ult
+            double minQult = double.MaxValue;
+            double[] C_values = { h0, 1.5 * h0, 2 * h0, 2.5 * h0, 3 * h0 };
+            foreach (double C in C_values)
+            {
+                double C0 = Math.Min(C, 2 * h0);
+                double Qb = CalculateResult.phi_n * phi_b2 * Rbt * b * h0 * h0 / C;
+                if (Qb < Qb_min || Qb > Qb_max) continue; // Пропуск, если вне пределов
+                double Qsw_trans = phi_sw * CalculateResult.qsw * C0;
+                double qC = q * C;
+                double Qult = Qb + Qsw_trans + qC;
+                if (Qult < minQult)
+                {
+                    minQult = Qult;
+                    CalculateResult.Qb = Qb; // Сохраняем Qb для минимального Qult
+                }
+            }
+            bool check2 = Q <= minQult && rebarCheck;
+
+            // Проверка 3: момент
+            double C_moment = h0;
             double C0_moment = Math.Min(C_moment, 2 * h0);
             CalculateResult.zs = 0.9 * h0;
             CalculateResult.Ns = Rs * As;
@@ -144,7 +154,6 @@ namespace BuilderCalculator.KZH_08
             bool check3 = M <= CalculateResult.Ms + CalculateResult.Msw;
 
             CalculateResult.Result = check1 && check2 && check3;
-
             return CalculateResult;
         }
     }
