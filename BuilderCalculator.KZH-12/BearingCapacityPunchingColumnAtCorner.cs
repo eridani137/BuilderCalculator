@@ -103,15 +103,15 @@ namespace BuilderCalculator.KZH_12
             // Проверка обязательных параметров для косвенного армирования
             if (IncludeIndirectReinforcement)
             {
-                if (lx == null || Asx == null || nx == null || 
-                    ly == null || Asy == null || ny == null || s == null)
+                if (lx == 0 || Asx == 0 || nx == 0 || 
+                    ly == 0 || Asy == 0 || ny == 0 || s == 0)
                     throw new ArgumentException("Для косвенного армирования все параметры должны быть заданы");
             }
 
             // Проверка наличия 'c' для схем 4,7,8
             if (CaseType == 4 || CaseType == 7 || CaseType == 8)
             {
-                if (c == null)
+                if (c == 0)
                     throw new ArgumentException($"Для схемы {CaseType} требуется параметр 'c'");
             }
         }
@@ -161,18 +161,17 @@ namespace BuilderCalculator.KZH_12
         {
             if (!IncludeIndirectReinforcement) return;
 
-            // 1. Эффективная площадь (с ограничением по Ab_max)
-            CalculateResult.Ab_loc_ef = lx * ly;
-            if (CalculateResult.Ab_loc_ef > CalculateResult.Ab_max) 
-                CalculateResult.Ab_loc_ef = CalculateResult.Ab_max;
+            // Эффективная площадь как lx * ly
+            double Ab_loc_ef = lx * ly;
+            CalculateResult.Ab_loc_ef = Ab_loc_ef; // Для вывода
 
-            // 2. Коэффициент φ_sxy
-            CalculateResult.phi_sxy = Math.Sqrt(CalculateResult.Ab_loc_ef / CalculateResult.Ab_loc);
+            // Эффективная площадь для phi_sxy с учетом ограничения Ab_max
+            double Ab_for_phi = Math.Min(Ab_loc_ef, CalculateResult.Ab_max);
+            CalculateResult.phi_sxy = Math.Sqrt(Ab_for_phi / CalculateResult.Ab_loc);
 
-            // 3. Коэффициент армирования
-            double numerator = nx * Asx * lx + 
-                               ny * Asy * ly;
-            CalculateResult.mu_sxy = numerator / (s * CalculateResult.Ab_loc_ef);
+            // Расчет mu_sxy с использованием Ab_loc_ef = lx * ly
+            double numerator = nx * Asx * lx + ny * Asy * ly;
+            CalculateResult.mu_sxy = numerator / (s * Ab_loc_ef);
 
             double Rsxy = ReinforcementClass.GetRs();
 
