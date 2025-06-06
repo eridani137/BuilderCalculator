@@ -67,26 +67,22 @@ namespace BuilderCalculator.KZH_11
         {
             double Rb = ConcreteClass.GetRb() * gammaBi;
             double Rs = ReinforcementClass.GetRs();
-            double Rsc = ReinforcementClass.GetRsc();
+            double Rsc = ReinforcementClass.GetRsc(); // Для x, но не для моментов
 
-            // Расчет геометрических характеристик
             double h0 = h - a;
             CalculateResult.e0 = M / N;
             CalculateResult.e_prime = (h0 - aPrime) / 2 + CalculateResult.e0;
             CalculateResult.e = CalculateResult.e_prime - h0 + aPrime;
-
-            // Расчет высоты сжатой зоны
             CalculateResult.x = (Rs * As - Rsc * AsPrime - N) / (Rb * b);
 
-            // Расчет моментов
-            CalculateResult.Mult = Rs * As * (h0 - aPrime);
-            CalculateResult.MultPrime = Rsc * AsPrime * (h0 - aPrime);
+            // Исправленные моменты
+            CalculateResult.Mult = Rs * AsPrime * (h0 - aPrime); // M_ult = Rs * A_s' * (h0 - a')
+            CalculateResult.MultPrime = Rs * As * (h0 - aPrime); // M_ult' = Rs * A_s * (h0 - a')
 
-            // Расчет усилий
             CalculateResult.Ne = N * CalculateResult.e;
             CalculateResult.Ne_prime = N * CalculateResult.e_prime;
 
-            // Проверка условий прочности
+            // Проверка условий
             CalculateResult.Result = (CalculateResult.Ne <= CalculateResult.Mult) && (CalculateResult.Ne_prime <= CalculateResult.MultPrime);
 
             return CalculateResult;
