@@ -83,14 +83,16 @@ namespace BuilderCalculator.KZH_07._8
                 _calculateResult.qsw = Rsw * Asw / Sw;
                 _calculateResult.Fsw_ult = 0.8 * _calculateResult.qsw * u;
 
-                // Корректировка Fsw_ult согласно п.8.1.48 СП
-                _calculateResult.Fsw_ult = Math.Max(_calculateResult.Fsw_ult, 0.25 * _calculateResult.Fb_ult);
-                _calculateResult.Fsw_ult = Math.Min(_calculateResult.Fsw_ult, _calculateResult.Fb_ult);
+                // Ограничиваем Fsw_ult <= Fb_ult
+                if (_calculateResult.Fsw_ult > _calculateResult.Fb_ult)
+                {
+                    _calculateResult.Fsw_ult = _calculateResult.Fb_ult;
+                }
 
                 // Расчет момента для арматуры
                 _calculateResult.Msw_ult = 0.8 * _calculateResult.qsw * _calculateResult.Wsw;
-                
-                // Корректировка Msw_ult согласно п.8.1.50 СП
+    
+                // Ограничиваем Msw_ult <= Mb_ult
                 if (_calculateResult.Msw_ult > _calculateResult.Mb_ult)
                 {
                     _calculateResult.Msw_ult = _calculateResult.Mb_ult;
