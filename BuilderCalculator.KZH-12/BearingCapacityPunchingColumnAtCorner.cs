@@ -14,7 +14,29 @@ namespace BuilderCalculator.KZH_12
         {
             CalculateResult = new CalculateResult(this);
         }
-        
+
+        public BearingCapacityPunchingColumnAtCorner(int caseType, double n, int loadDistribution, double a1, double a2, double c, bool includeIndirectReinforcement, double lx, double asx, int nx, double ly, double asy, int ny, double s, ConcreteClass concreteClass, double gammaBi, ReinforcementClass reinforcementClass)
+        {
+            CalculateResult = new CalculateResult(this);
+            CaseType = caseType;
+            N = n;
+            LoadDistribution = loadDistribution;
+            this.a1 = a1;
+            this.a2 = a2;
+            this.c = c;
+            IncludeIndirectReinforcement = includeIndirectReinforcement;
+            this.lx = lx;
+            Asx = asx;
+            this.nx = nx;
+            this.ly = ly;
+            Asy = asy;
+            this.ny = ny;
+            this.s = s;
+            ConcreteClass = concreteClass;
+            gamma_bi = gammaBi;
+            ReinforcementClass = reinforcementClass;
+        }
+
         [InputParameter("Случай приложения нагрузки (1-8)")]
         public int CaseType { get; set; } = 1;
 
