@@ -8,13 +8,6 @@ namespace Calculators.Shared.Extensions
     public static class Extensions
     {
         private static readonly Style Style = new Style(Color.Aquamarine1);
-        
-        public static double Clamp(this double value, double min, double max)
-        {
-            if (value < min) return min;
-            if (value > max) return max;
-            return value;
-        }
 
         public static double GetRb(this ConcreteClass concreteClass)
         {

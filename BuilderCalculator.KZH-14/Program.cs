@@ -4,7 +4,7 @@ namespace BuilderCalculator.KZH_14
     {
         public static void Main()
         {
-            new Calculator().Run();
+            new ColumnsCircularCrossSection().Run();
         }
     }
 }
