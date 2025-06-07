@@ -14,7 +14,24 @@ namespace BuilderCalculator.KZH_02
         {
             CalculateResult = new CalculateResult(this);
         }
-        
+
+        public ReinforcementForBendingReinforcedConcreteElement(double m, int loadDuration, int sectionShape, double b, double bf, double h, double hf, double a, double aPrime, ConcreteClass concreteClass, ReinforcementClass reinforcementClass, double gammaBi)
+        {
+            CalculateResult = new CalculateResult(this);
+            M = m;
+            LoadDuration = loadDuration;
+            SectionShape = sectionShape;
+            B = b;
+            Bf = bf;
+            H = h;
+            Hf = hf;
+            A = a;
+            APrime = aPrime;
+            ConcreteClass = concreteClass;
+            ReinforcementClass = reinforcementClass;
+            GammaBi = gammaBi;
+        }
+
         private const double _es = 2038736; // Модуль упругости арматуры (кгс/см²)
         private const double _epsB2 = 0.0035; // Относительная деформация бетона
         

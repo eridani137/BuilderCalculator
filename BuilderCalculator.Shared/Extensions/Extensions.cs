@@ -33,6 +33,7 @@ namespace Calculators.Shared.Extensions
                 case ConcreteClass.B80: return 417.9;
                 case ConcreteClass.B90: return 448.5;
                 case ConcreteClass.B100: return 484.2;
+                case ConcreteClass.B60:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
             }
@@ -53,6 +54,10 @@ namespace Calculators.Shared.Extensions
                 case ConcreteClass.B50: return 3.87e5;
                 case ConcreteClass.B55: return 3.98e5;
                 case ConcreteClass.B60: return 4.03e5;
+                case ConcreteClass.B70:
+                case ConcreteClass.B80:
+                case ConcreteClass.B90:
+                case ConcreteClass.B100:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
             }
@@ -93,6 +98,7 @@ namespace Calculators.Shared.Extensions
                 case ReinforcementClass.A600SP: return 5303;
                 case ReinforcementClass.AU500SP: return 4589;
                 case ReinforcementClass.B500: return 4436;
+                case ReinforcementClass.A600:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
             }
@@ -109,6 +115,23 @@ namespace Calculators.Shared.Extensions
                 case ReinforcementClass.A600SP:
                 case ReinforcementClass.AU500SP:
                 case ReinforcementClass.B500: return 3059;
+                case ReinforcementClass.A600:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
+            }
+        }
+
+        public static double GetRsc(this ReinforcementClass reinforcementClass)
+        {
+            switch (reinforcementClass)
+            {
+                case ReinforcementClass.A240: return 2141;
+                case ReinforcementClass.A400: return 3568;
+                case ReinforcementClass.A500:
+                case ReinforcementClass.A500SP:
+                case ReinforcementClass.A600SP:
+                case ReinforcementClass.AU500SP: return 4077;
+                case ReinforcementClass.B500: return 3874;
                 case ReinforcementClass.A600:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
