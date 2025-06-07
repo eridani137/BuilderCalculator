@@ -15,6 +15,30 @@ namespace BuilderCalculator.KZH_07._6
             CalculateResult = new CalculateResult(this);
         }
 
+        public BearingCapacityPunchingColumnAtCorner(int orientPl, double xa, double ya, double f, int directionF, double mx, double my, bool divideMoments, bool divideEccentricityMoments, double ac, double bc, double h, double a, ConcreteClass concreteClass, double gammaBi, ReinforcementClass reinforcementClass, double asw, double sw, bool checkIndividualPoints)
+        {
+            CalculateResult = new CalculateResult(this);
+            OrientPl = orientPl;
+            Xa = xa;
+            Ya = ya;
+            F = f;
+            DirectionF = directionF;
+            Mx = mx;
+            My = my;
+            DivideMoments = divideMoments;
+            DivideEccentricityMoments = divideEccentricityMoments;
+            Ac = ac;
+            Bc = bc;
+            H = h;
+            A = a;
+            ConcreteClass = concreteClass;
+            GammaBi = gammaBi;
+            ReinforcementClass = reinforcementClass;
+            Asw = asw;
+            Sw = sw;
+            CheckIndividualPoints = checkIndividualPoints;
+        }
+
         [InputParameter("Ориентация площадки относительно угла (1, 2, 3, 4)")]
         public int OrientPl { get; set; } = 1;
 
