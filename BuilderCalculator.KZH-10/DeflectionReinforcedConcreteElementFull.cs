@@ -6,13 +6,36 @@ using Calculators.Shared.Extensions;
 
 namespace BuilderCalculator.KZH_10
 {
-    public class Calculator : BaseBuilderCalculator
+    public class DeflectionReinforcedConcreteElementFull : BaseBuilderCalculator
     {
         private CalculateResult CalculateResult { get; }
 
-        public Calculator()
+        public DeflectionReinforcedConcreteElementFull()
         {
             CalculateResult = new CalculateResult(this);
+        }
+
+        public DeflectionReinforcedConcreteElementFull(double m, double ml, double fult, int humidity, int scheme, double l, int sectionType, double b, double bf, double h, double hf, double a, double @as, double aPrime, double asPrime, ConcreteClass concreteClass, ReinforcementClass reinforcementClass, bool calculateReducedModulus)
+        {
+            CalculateResult = new CalculateResult(this);
+            M = m;
+            Ml = ml;
+            this.fult = fult;
+            Humidity = humidity;
+            Scheme = scheme;
+            this.l = l;
+            SectionType = sectionType;
+            this.b = b;
+            this.bf = bf;
+            this.h = h;
+            this.hf = hf;
+            this.a = a;
+            As = @as;
+            a_prime = aPrime;
+            As_prime = asPrime;
+            ConcreteClass = concreteClass;
+            ReinforcementClass = reinforcementClass;
+            CalculateReducedModulus = calculateReducedModulus;
         }
 
         [InputParameter("Изгибающий момент от полной нагрузки, кг·см")]

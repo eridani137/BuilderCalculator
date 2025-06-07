@@ -4,7 +4,7 @@ namespace BuilderCalculator.KZH_10
     {
         public static void Main()
         {
-            new Calculator().Run();
+            new DeflectionReinforcedConcreteElementFull().Run();
         }
     }
 }

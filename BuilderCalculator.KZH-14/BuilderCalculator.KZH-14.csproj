@@ -5,11 +5,11 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{F1E6C3C1-22F6-4082-BE77-4E33A389F6DC}</ProjectGuid>
+        <ProjectGuid>{7F6748A3-1295-40DE-B08A-75721B8D916C}</ProjectGuid>
         <OutputType>Exe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>BuilderCalculator.KZH_10</RootNamespace>
-        <AssemblyName>BuilderCalculator.KZH_10</AssemblyName>
+        <RootNamespace>BuilderCalculator.KZH_14</RootNamespace>
+        <AssemblyName>BuilderCalculator.KZH_14</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -58,7 +58,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="CalculateResult.cs" />
-        <Compile Include="DeflectionReinforcedConcreteElementFull.cs" />
+        <Compile Include="Calculator.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>

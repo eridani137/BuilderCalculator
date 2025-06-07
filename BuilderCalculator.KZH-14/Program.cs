@@ -1,10 +1,10 @@
-namespace BuilderCalculator.KZH_09
+namespace BuilderCalculator.KZH_14
 {
     internal static class Program
     {
         public static void Main()
         {
-            new DeflectionReinforcedConcreteElementSimple().Run();
+            new Calculator().Run();
         }
     }
 }
