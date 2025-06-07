@@ -36,7 +36,5 @@ namespace Calculators.Shared.Abstractions
 
             AnsiConsole.Write(table);
         }
-        
-        public abstract void PrintSummary();
     }
 }

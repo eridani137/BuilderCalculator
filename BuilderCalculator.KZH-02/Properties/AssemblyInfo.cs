@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Calculators.KZH_04")]
+[assembly: AssemblyTitle("BuilderCalculator.KZH_02")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Calculators.KZH_04")]
+[assembly: AssemblyProduct("BuilderCalculator.KZH_02")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("755332A2-0005-417C-B0F5-415F6A1CB27B")]
+[assembly: Guid("DBF44072-37CA-4822-8A3E-4A127B5289CA")]
 
 // Version information for an assembly consists of the following four values:
 //

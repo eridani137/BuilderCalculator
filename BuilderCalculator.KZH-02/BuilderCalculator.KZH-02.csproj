@@ -5,11 +5,11 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{CE17EF7F-E5DB-4B60-A864-9E42362810F8}</ProjectGuid>
+        <ProjectGuid>{DBF44072-37CA-4822-8A3E-4A127B5289CA}</ProjectGuid>
         <OutputType>Exe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>BuilderCalculator.KZH_07_3</RootNamespace>
-        <AssemblyName>BuilderCalculator.KZH_07_3</AssemblyName>
+        <RootNamespace>BuilderCalculator.KZH_02</RootNamespace>
+        <AssemblyName>BuilderCalculator.KZH_02</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -58,7 +58,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="CalculateResult.cs" />
-        <Compile Include="BearingCapacityPunching.cs" />
+        <Compile Include="ReinforcementForBendingReinforcedConcreteElement.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
@@ -69,6 +69,7 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
+      <None Include="App.config" />
       <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>

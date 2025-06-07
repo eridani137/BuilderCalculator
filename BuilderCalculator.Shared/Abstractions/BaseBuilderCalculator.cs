@@ -15,7 +15,6 @@ namespace Calculators.Shared.Abstractions
                 EnteringParameters();
                 var result = Calculate();
                 result?.PrintParameters();
-                result?.PrintSummary();
 
                 AnsiConsole.MarkupLine("Нажмите любую клавишу для выхода...".MarkupPrimaryColor());
                 Console.ReadKey(false);
