@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Calculators.Shared.Enums;
 using Spectre.Console;
 
@@ -111,6 +112,54 @@ namespace Calculators.Shared.Extensions
             }
         }
 
+        public static double GetPhibcr(this ConcreteClass concreteClass)
+        {
+            switch (concreteClass)
+            {
+                case ConcreteClass.B10: return 3.9;
+                case ConcreteClass.B15: return 3.4;
+                case ConcreteClass.B20: return 2.8;
+                case ConcreteClass.B25: return 2.5;
+                case ConcreteClass.B30: return 2.3;
+                case ConcreteClass.B35: return 2.1;
+                case ConcreteClass.B40: return 1.9;
+                case ConcreteClass.B45: return 1.8;
+                case ConcreteClass.B50: return 1.6;
+                case ConcreteClass.B55: return 1.5;
+                case ConcreteClass.B60: return 1.4;
+                case ConcreteClass.B70:
+                case ConcreteClass.B80:
+                case ConcreteClass.B90:
+                case ConcreteClass.B100:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }
+        }
+
+        public static double GetRbtser(this ConcreteClass concreteClass)
+        {
+            switch (concreteClass)
+            {
+                case ConcreteClass.B10: return 8.7;
+                case ConcreteClass.B15: return 11.2;
+                case ConcreteClass.B20: return 13.8;
+                case ConcreteClass.B25: return 15.8;
+                case ConcreteClass.B30: return 17.8;
+                case ConcreteClass.B35: return 19.9;
+                case ConcreteClass.B40: return 21.4;
+                case ConcreteClass.B45: return 22.9;
+                case ConcreteClass.B50: return 25.0;
+                case ConcreteClass.B55: return 26.5;
+                case ConcreteClass.B60: return 28.0;
+                case ConcreteClass.B70:
+                case ConcreteClass.B80:
+                case ConcreteClass.B90:
+                case ConcreteClass.B100:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }
+        }
+        
         public static double GetRbser(this ConcreteClass concreteClass)
         {
             switch (concreteClass)
