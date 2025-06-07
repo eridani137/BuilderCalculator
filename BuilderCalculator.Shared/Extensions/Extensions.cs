@@ -110,6 +110,49 @@ namespace Calculators.Shared.Extensions
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
             }
         }
+
+        public static double GetRbser(this ConcreteClass concreteClass)
+        {
+            switch (concreteClass)
+            {
+                case ConcreteClass.B10: return 76.5;
+                case ConcreteClass.B15: return 112.0;
+                case ConcreteClass.B20: return 153.0;
+                case ConcreteClass.B25: return 188.0;
+                case ConcreteClass.B30: return 224.0;
+                case ConcreteClass.B35: return 260.0;
+                case ConcreteClass.B40: return 296.0;
+                case ConcreteClass.B45: return 326.0;
+                case ConcreteClass.B50: return 367.0;
+                case ConcreteClass.B55: return 403.0;
+                case ConcreteClass.B60: return 438.0;
+                case ConcreteClass.B70:
+                case ConcreteClass.B80:
+                case ConcreteClass.B90:
+                case ConcreteClass.B100:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }   
+        }
+
+        public static double GetEs(this ReinforcementClass reinforcementClass)
+        {
+            switch (reinforcementClass)
+            {
+                case ReinforcementClass.A240:
+                case ReinforcementClass.A400:
+                case ReinforcementClass.A500:
+                case ReinforcementClass.B500: return 2.04e6;
+                case ReinforcementClass.A500SP:
+                case ReinforcementClass.A600:
+                case ReinforcementClass.A600SP:
+                case ReinforcementClass.AU500SP:
+                case ReinforcementClass.A800:
+                case ReinforcementClass.A1000:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
+            }
+        }
         
         public static double GetRs(this ReinforcementClass reinforcementClass)
         {

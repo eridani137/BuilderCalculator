@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderCalculator.KZH-07.5"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderCalculator.KZH-07.6", "BuilderCalculator.KZH-07.6\BuilderCalculator.KZH-07.6.csproj", "{0463FC6F-2224-4102-ADA0-F450FD49DBD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuilderCalculator.KZH-09", "BuilderCalculator.KZH-09\BuilderCalculator.KZH-09.csproj", "{2F1FCF98-0BA7-414B-B82D-AE0A04F221E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{0463FC6F-2224-4102-ADA0-F450FD49DBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0463FC6F-2224-4102-ADA0-F450FD49DBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0463FC6F-2224-4102-ADA0-F450FD49DBD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F1FCF98-0BA7-414B-B82D-AE0A04F221E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F1FCF98-0BA7-414B-B82D-AE0A04F221E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F1FCF98-0BA7-414B-B82D-AE0A04F221E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F1FCF98-0BA7-414B-B82D-AE0A04F221E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
