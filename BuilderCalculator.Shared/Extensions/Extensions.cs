@@ -62,6 +62,30 @@ namespace Calculators.Shared.Extensions
                     throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
             }
         }
+
+        public static double GetRbt1(this ConcreteClass concreteClass)
+        {
+            switch (concreteClass)
+            {
+                case ConcreteClass.B10: return 0.056;
+                case ConcreteClass.B15: return 0.075;
+                case ConcreteClass.B20: return 0.090;
+                case ConcreteClass.B25: return 0.105;
+                case ConcreteClass.B30: return 0.115;
+                case ConcreteClass.B35: return 0.130;
+                case ConcreteClass.B40: return 0.140;
+                case ConcreteClass.B45: return 0.150;
+                case ConcreteClass.B50: return 0.160;
+                case ConcreteClass.B55: return 0.170;
+                case ConcreteClass.B60: return 0.180;
+                case ConcreteClass.B70:
+                case ConcreteClass.B80:
+                case ConcreteClass.B90:
+                case ConcreteClass.B100:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(concreteClass), concreteClass, null);
+            }
+        }
         
         public static double GetRbt(this ConcreteClass concreteClass)
         {
@@ -99,6 +123,27 @@ namespace Calculators.Shared.Extensions
                 case ReinforcementClass.AU500SP: return 4589;
                 case ReinforcementClass.B500: return 4436;
                 case ReinforcementClass.A600:
+                case ReinforcementClass.A800:
+                case ReinforcementClass.A1000:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
+            }
+        }
+
+        public static double GetRs1(this ReinforcementClass reinforcementClass)
+        {
+            switch (reinforcementClass)
+            {
+                case ReinforcementClass.A240: return 21.00;
+                case ReinforcementClass.A400: return 35.00;
+                case ReinforcementClass.A500: return 43.50;
+                case ReinforcementClass.A500SP: return 45.00;
+                case ReinforcementClass.A600:
+                case ReinforcementClass.A600SP: return 52.00;
+                case ReinforcementClass.AU500SP: return 45.00;
+                case ReinforcementClass.B500: return 43.50;
+                case ReinforcementClass.A800: return 69.50;
+                case ReinforcementClass.A1000: return 87.00;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
             }
@@ -116,6 +161,8 @@ namespace Calculators.Shared.Extensions
                 case ReinforcementClass.AU500SP:
                 case ReinforcementClass.B500: return 3059;
                 case ReinforcementClass.A600:
+                case ReinforcementClass.A800:
+                case ReinforcementClass.A1000:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
             }
@@ -133,6 +180,8 @@ namespace Calculators.Shared.Extensions
                 case ReinforcementClass.AU500SP: return 4077;
                 case ReinforcementClass.B500: return 3874;
                 case ReinforcementClass.A600:
+                case ReinforcementClass.A800:
+                case ReinforcementClass.A1000:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
             }

@@ -6,11 +6,11 @@ using Calculators.Shared.Extensions;
 
 namespace BuilderCalculator.KZH_05._1
 {
-    public class Calculator : BaseBuilderCalculator
+    public class StrengthNormalCrossSectionOffCenterCompressedElement : BaseBuilderCalculator
     {
         private CalculateResult CalculateResult { get; }
 
-        public Calculator()
+        public StrengthNormalCrossSectionOffCenterCompressedElement()
         {
             CalculateResult = new CalculateResult(this);
         }

@@ -4,7 +4,7 @@ namespace BuilderCalculator.KZH_05._1
     {
         public static void Main()
         {
-            new Calculator().Run();
+            new StrengthNormalCrossSectionOffCenterCompressedElement().Run();
         }
     }
 }
