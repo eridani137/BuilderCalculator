@@ -15,6 +15,26 @@ namespace BuilderCalculator.KZH_14
             CalculateResult = new CalculateResult(this);
         }
 
+        public ColumnsCircularCrossSection(int statichOpred, int formaSechenia, double m, double ml, double n, double nl, double l, double mu, double dcir, double dcir1, double a, double asTot, ConcreteClass concreteClass, ReinforcementClass reinforcementClass, double gammaBi)
+        {
+            CalculateResult = new CalculateResult(this);
+            StatichOpred = statichOpred;
+            FormaSechenia = formaSechenia;
+            M = m;
+            Ml = ml;
+            N = n;
+            Nl = nl;
+            L = l;
+            Mu = mu;
+            Dcir = dcir;
+            Dcir1 = dcir1;
+            A = a;
+            AsTot = asTot;
+            ConcreteClass = concreteClass;
+            ReinforcementClass = reinforcementClass;
+            GammaBi = gammaBi;
+        }
+
         [InputParameter("Статическая определимость конструкции (0 - определимая, 1 - неопределимая)")]
         public int StatichOpred { get; set; } = 0;
 
