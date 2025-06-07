@@ -94,7 +94,8 @@ namespace BuilderCalculator.KZH_05._1
              CalculateResult.alpha_nx = N / (Rb * b * CalculateResult.h0x);
              CalculateResult.alpha_sx = (Rs * As) / (Rb * b * CalculateResult.h0x);
           
-             CalculateResult.xi_R = 0.8 / (1.0 + Rs / 700.0);
+             double Rs_MPa = Rs / 10.197; // Перевод из кг/см² в МПа
+             CalculateResult.xi_R = 0.8 / (1.0 + Rs_MPa / 700.0);
           
              if (CalculateResult.alpha_nx <= CalculateResult.xi_R)
              {
@@ -120,8 +121,6 @@ namespace BuilderCalculator.KZH_05._1
              CalculateResult.alpha_ny = N / (Rb * h * CalculateResult.h0y);
              CalculateResult.alpha_sy = (Rs * As) / (Rb * h * CalculateResult.h0y);
           
-             CalculateResult.xi_R = 0.8 / (1.0 + Rs / 700.0);
-          
              if (CalculateResult.alpha_ny <= CalculateResult.xi_R)
              {
                  CalculateResult.xi_y = CalculateResult.alpha_ny;
@@ -144,12 +143,20 @@ namespace BuilderCalculator.KZH_05._1
              CalculateResult.alpha_s = (Rs * CalculateResult.Astot) / (Rb * b * h);
              CalculateResult.k0 = (0.275 + CalculateResult.alpha_s) / (0.16 + CalculateResult.alpha_s);
              CalculateResult.alpha_n = N / (Rb * b * h);
-          
-             double part1 = Math.Pow(1.7 - CalculateResult.alpha_s, 2) / 4.0 + 0.1775;
-             double part2 = Math.Pow(CalculateResult.alpha_n, 2) - 0.16;
-             CalculateResult.k = part1 * part2 + CalculateResult.k0;
+
+             if (CalculateResult.alpha_n > 0.4)
+             {
+                 double part1 = Math.Pow(1.7 - CalculateResult.alpha_s, 2) / 4.0 + 0.1775;
+                 double part2 = Math.Pow(CalculateResult.alpha_n, 2) - 0.16;
+                 CalculateResult.k = part1 * part2 + CalculateResult.k0;
+             }
+             else
+             {
+                 CalculateResult.k = CalculateResult.k0;
+             }
+            
              CalculateResult.k = Math.Min(CalculateResult.k, 1.6);
-          
+
              double ratioX = Math.Pow(Mx / CalculateResult.M0x, CalculateResult.k);
              double ratioY = Math.Pow(My / CalculateResult.M0y, CalculateResult.k);
              CalculateResult.Result = (ratioX + ratioY) <= 1.0;
