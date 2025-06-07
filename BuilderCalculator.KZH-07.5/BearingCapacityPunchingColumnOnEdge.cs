@@ -2,11 +2,11 @@
 
 namespace BuilderCalculator.KZH_07._5
 {
-    public class Calculator : BaseBuilderCalculator
+    public class BearingCapacityPunchingColumnOnEdge : BaseBuilderCalculator
     {
         private CalculateResult CalculateResult { get; }
 
-        public Calculator()
+        public BearingCapacityPunchingColumnOnEdge()
         {
             CalculateResult = new CalculateResult(this);
         }
