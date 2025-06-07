@@ -202,11 +202,11 @@ namespace Calculators.Shared.Extensions
             {
                 case ReinforcementClass.A240: return 2190;
                 case ReinforcementClass.A400: return 3620;
-                case ReinforcementClass.A500: return 4430;
+                case ReinforcementClass.A500: return 4434;
                 case ReinforcementClass.A500SP: return 4589;
                 case ReinforcementClass.A600SP: return 5303;
                 case ReinforcementClass.AU500SP: return 4589;
-                case ReinforcementClass.B500: return 4430;
+                case ReinforcementClass.B500: return 4434;
                 case ReinforcementClass.A600:
                 case ReinforcementClass.A800:
                 case ReinforcementClass.A1000:
