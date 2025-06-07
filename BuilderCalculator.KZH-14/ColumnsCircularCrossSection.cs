@@ -15,7 +15,9 @@ namespace BuilderCalculator.KZH_14
             CalculateResult = new CalculateResult(this);
         }
 
-        public ColumnsCircularCrossSection(int statichOpred, int formaSechenia, double m, double ml, double n, double nl, double l, double mu, double dcir, double dcir1, double a, double asTot, ConcreteClass concreteClass, ReinforcementClass reinforcementClass, double gammaBi)
+        public ColumnsCircularCrossSection(int statichOpred, int formaSechenia, double m, double ml, double n,
+            double nl, double l, double mu, double dcir, double dcir1, double a, double asTot,
+            ConcreteClass concreteClass, ReinforcementClass reinforcementClass, double gammaBi)
         {
             CalculateResult = new CalculateResult(this);
             StatichOpred = statichOpred;
@@ -95,13 +97,24 @@ namespace BuilderCalculator.KZH_14
                 }
             }
 
+            CalculateResult.E0 = e0;
+
             double deltaE = e0 / Dcir;
+            CalculateResult.DeltaE = deltaE;
+
             double r = Dcir / 2;
             double rs = r - A;
             double M1 = M + N * rs;
+            CalculateResult.M1 = M1;
+
             double Ml1 = Ml + Nl * rs;
+            CalculateResult.Ml1 = Ml1;
+
             double phiL = 1 + Ml1 / M1;
+            CalculateResult.PhiL = phiL;
+
             double kb = 0.15 / (phiL * (0.3 + deltaE));
+            CalculateResult.Kb = kb;
 
             // Момент инерции
             double I;
@@ -115,26 +128,34 @@ namespace BuilderCalculator.KZH_14
                 I = Math.PI * (Math.Pow(r, 4) - Math.Pow(r1, 4)) / 4;
             }
 
+            CalculateResult.I = I;
+
             double Is = AsTot * Math.Pow(rs, 2) / 2;
+            CalculateResult.Is = Is;
 
             // Жесткость
             double Eb = ConcreteClass.GetEb();
             double Es = 2038736;
             double ks = 0.7;
             double D = kb * Eb * I + ks * Es * Is;
+            CalculateResult.D = D;
 
             // Критическая сила
             double l0 = Mu * L;
             double Ncr = Math.Pow(Math.PI, 2) * D / Math.Pow(l0, 2);
+            CalculateResult.Ncr = Ncr;
+
             if (Ncr < N)
             {
                 CalculateResult.Result = false;
-                AssignOutputParameters(e0, deltaE, M1, Ml1, phiL, kb, I, Is, D, Ncr, 0, 0, 0, 0, 0, 0);
                 return CalculateResult;
             }
 
             double eta = 1 / (1 - N / Ncr);
+            CalculateResult.Eta = eta;
+
             double MCalculated = N * e0 * eta;
+            CalculateResult.MCalculated = MCalculated;
 
             // Площадь сечения
             double Area;
@@ -147,6 +168,8 @@ namespace BuilderCalculator.KZH_14
                 double r1 = Dcir1 / 2;
                 Area = Math.PI * (Math.Pow(r, 2) - Math.Pow(r1, 2));
             }
+
+            CalculateResult.Area = Area;
 
             // Характеристики материалов
             double Rs = ReinforcementClass.GetRs();
@@ -167,7 +190,6 @@ namespace BuilderCalculator.KZH_14
             if (N > N_limit)
             {
                 CalculateResult.Result = false;
-                AssignOutputParameters(e0, deltaE, M1, Ml1, phiL, kb, I, Is, D, Ncr, eta, MCalculated, Area, 0, 0, 0);
                 return CalculateResult;
             }
 
@@ -182,6 +204,8 @@ namespace BuilderCalculator.KZH_14
                 XiCir = (N + Rs * AsTot) / (Rb * Area + (Rsc + 1.7 * Rs) * AsTot);
             }
 
+            CalculateResult.XiCir = XiCir;
+
             // Коэффициент φ (только для круглого сечения)
             double Phi = 0;
             if (FormaSechenia == 0)
@@ -189,6 +213,8 @@ namespace BuilderCalculator.KZH_14
                 Phi = 1.6 * (1 - 1.55 * XiCir) * XiCir;
                 if (Phi > 1.0) Phi = 1.0;
             }
+
+            CalculateResult.Phi = Phi;
 
             // Несущая способность Mult
             double Mult;
@@ -205,34 +231,14 @@ namespace BuilderCalculator.KZH_14
                        Rs * AsTot * rs * (1 - 1.7 * XiCir) * (0.2 + 1.3 * XiCir);
             }
 
+            CalculateResult.Mult = Mult;
+
             // Проверка прочности
             CalculateResult.Result = MCalculated <= Mult;
 
             return CalculateResult;
         }
-        
-        private void AssignOutputParameters(double e0, double deltaE, double m1, double ml1, double phiL, double kb, 
-            double i, double @is, double d, double ncr, double eta, double mCalculated, double area, double xiCir, 
-            double phi, double mult)
-        {
-            CalculateResult.E0 = e0;
-            CalculateResult.DeltaE = deltaE;
-            CalculateResult.M1 = m1;
-            CalculateResult.Ml1 = ml1;
-            CalculateResult.PhiL = phiL;
-            CalculateResult.Kb = kb;
-            CalculateResult.I = i;
-            CalculateResult.Is = @is;
-            CalculateResult.D = d;
-            CalculateResult.Ncr = ncr;
-            CalculateResult.Eta = eta;
-            CalculateResult.MCalculated = mCalculated;
-            CalculateResult.Area = area;
-            CalculateResult.XiCir = xiCir;
-            CalculateResult.Phi = phi;
-            CalculateResult.Mult = mult;
-        }
-        
+
         private double CalculateXiCirForCircular(double N, double Rs, double Rb, double Area, double AsTot)
         {
             // Метод бисекции для решения уравнения (Д.9)
@@ -241,18 +247,19 @@ namespace BuilderCalculator.KZH_14
             double tolerance = 1e-6;
             int maxIterations = 100;
             double XiCir = 0;
-        
+
             for (int i = 0; i < maxIterations; i++)
             {
                 double c = (a + b) / 2;
-                double fc = (N + Rs * AsTot + Rb * Area * Math.Sin(2 * Math.PI * c) / (2 * Math.PI)) / 
+                double fc = (N + Rs * AsTot + Rb * Area * Math.Sin(2 * Math.PI * c) / (2 * Math.PI)) /
                     (Rb * Area + 2.55 * Rs * AsTot) - c;
                 if (Math.Abs(fc) < tolerance)
                 {
                     XiCir = c;
                     break;
                 }
-                double fa = (N + Rs * AsTot + Rb * Area * Math.Sin(2 * Math.PI * a) / (2 * Math.PI)) / 
+
+                double fa = (N + Rs * AsTot + Rb * Area * Math.Sin(2 * Math.PI * a) / (2 * Math.PI)) /
                     (Rb * Area + 2.55 * Rs * AsTot) - a;
                 if (fa * fc < 0)
                 {
@@ -262,8 +269,10 @@ namespace BuilderCalculator.KZH_14
                 {
                     a = c;
                 }
+
                 XiCir = (a + b) / 2;
             }
+
             return XiCir;
         }
     }
