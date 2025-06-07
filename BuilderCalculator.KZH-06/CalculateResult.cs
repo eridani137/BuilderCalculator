@@ -9,10 +9,10 @@ namespace BuilderCalculator.KZH_06
         {
         }
         
-        [OutputParameter("Расчетное сопротивление сцеплению, кН/см²")]
+        [OutputParameter("Расчетное сопротивление сцеплению, кН/см^2")]
         public double Rbond { get; set; }
 
-        [OutputParameter("Площадь сечения арматуры, см²")]
+        [OutputParameter("Площадь сечения арматуры, см^2")]
         public double As { get; set; }
 
         [OutputParameter("Периметр арматуры, см")]

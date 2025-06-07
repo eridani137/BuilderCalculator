@@ -9,10 +9,10 @@ namespace BuilderCalculator.KZH_07._6
         {
         }
 
-        [OutputParameter("Площадь первого момента по оси X, см²")]
+        [OutputParameter("Площадь первого момента по оси X, см^2")]
         public double Sx { get; set; }
 
-        [OutputParameter("Площадь первого момента по оси Y, см²")]
+        [OutputParameter("Площадь первого момента по оси Y, см^2")]
         public double Sy { get; set; }
 
         [OutputParameter("Координата центра тяжести по оси X, см")]
@@ -21,16 +21,16 @@ namespace BuilderCalculator.KZH_07._6
         [OutputParameter("Координата центра тяжести по оси Y, см")]
         public double Yc { get; set; }
 
-        [OutputParameter("Момент инерции относительно оси X, см³")]
+        [OutputParameter("Момент инерции относительно оси X, см^3")]
         public double Ibx { get; set; }
 
-        [OutputParameter("Момент инерции относительно оси Y, см³")]
+        [OutputParameter("Момент инерции относительно оси Y, см^3")]
         public double Iby { get; set; }
 
-        [OutputParameter("Момент сопротивления по оси X, см²")]
+        [OutputParameter("Момент сопротивления по оси X, см^2")]
         public double Wbx { get; set; }
 
-        [OutputParameter("Момент сопротивления по оси Y, см²")]
+        [OutputParameter("Момент сопротивления по оси Y, см^2")]
         public double Wby { get; set; }
 
         [OutputParameter("Расчетный момент по оси X, кг·см")]

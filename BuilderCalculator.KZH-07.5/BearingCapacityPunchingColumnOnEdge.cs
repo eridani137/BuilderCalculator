@@ -78,7 +78,7 @@ namespace BuilderCalculator.KZH_07._5
         [InputParameter("Класс арматуры")]
         public ReinforcementClass ReinforcementClass { get; set; } = ReinforcementClass.A500;
 
-        [InputParameter("Площадь поперечной арматуры с шагом sw, см²")]
+        [InputParameter("Площадь поперечной арматуры с шагом sw, см^2")]
         public double Asw { get; set; } = 1.06;
 
         [InputParameter("Шаг поперечной арматуры, см")]

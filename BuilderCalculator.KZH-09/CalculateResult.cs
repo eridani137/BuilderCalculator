@@ -21,7 +21,7 @@ namespace BuilderCalculator.KZH_09
         [OutputParameter("Расстояние от центра тяжести арматуры до нейтральной оси, см")]
         public double Z { get; set; }
 
-        [OutputParameter("Жесткость, кг·см²")]
+        [OutputParameter("Жесткость, кг·см^2")]
         public double D { get; set; }
 
         [OutputParameter("(1/r)1, 1/см")]

@@ -9,22 +9,22 @@ namespace BuilderCalculator.KZH_10
         {
         }
 
-        [OutputParameter("Момент инерции бетона, см⁴")]
+        [OutputParameter("Момент инерции бетона, см^4")]
         public double I { get; set; }
 
-        [OutputParameter("Момент инерции растянутой арматуры, см⁴")]
+        [OutputParameter("Момент инерции растянутой арматуры, см^4")]
         public double Is { get; set; }
 
-        [OutputParameter("Момент инерции сжатой арматуры, см⁴")]
+        [OutputParameter("Момент инерции сжатой арматуры, см^4")]
         public double Is_prime { get; set; }
 
-        [OutputParameter("Момент инерции сжатой зоны бетона, см⁴")]
+        [OutputParameter("Момент инерции сжатой зоны бетона, см^4")]
         public double Ib { get; set; }
 
-        [OutputParameter("Приведенный момент инерции, см⁴")]
+        [OutputParameter("Приведенный момент инерции, см^4")]
         public double Ired { get; set; }
 
-        [OutputParameter("Момент сопротивления, см³")]
+        [OutputParameter("Момент сопротивления, см^3")]
         public double Wred { get; set; }
 
         [OutputParameter("Момент образования трещин, кг·см")]
@@ -35,13 +35,13 @@ namespace BuilderCalculator.KZH_10
 
         [OutputParameter("Коэффициент ψ_s")] public double psi_s { get; set; }
 
-        [OutputParameter("Приведенный модуль упругости бетона, кг/см²")]
+        [OutputParameter("Приведенный модуль упругости бетона, кг/см^2")]
         public double Eb_red { get; set; }
 
-        [OutputParameter("Приведенный модуль упругости арматуры, кг/см²")]
+        [OutputParameter("Приведенный модуль упругости арматуры, кг/см^2")]
         public double Es_red { get; set; }
 
-        [OutputParameter("Модуль упругости бетона для расчета, кг/см²")]
+        [OutputParameter("Модуль упругости бетона для расчета, кг/см^2")]
         public double Eb1 { get; set; }
 
         [OutputParameter("Коэффициент α_s1")] public double alpha_s1 { get; set; }

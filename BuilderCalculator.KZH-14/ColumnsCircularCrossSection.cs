@@ -69,7 +69,7 @@ namespace BuilderCalculator.KZH_14
         [InputParameter("Защитный слой бетона, см")]
         public double A { get; set; } = 5.0;
 
-        [InputParameter("Площадь продольной арматуры, см²")]
+        [InputParameter("Площадь продольной арматуры, см^2")]
         public double AsTot { get; set; } = 31.4;
 
         [InputParameter("Класс бетона")] public ConcreteClass ConcreteClass { get; set; } = ConcreteClass.B25;

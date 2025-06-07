@@ -18,7 +18,7 @@ namespace BuilderCalculator.KZH_02
         [OutputParameter("Коэффициент αm")]
         public double AlphaM { get; set; }
 
-        [OutputParameter("Площадь арматуры, см²")]
+        [OutputParameter("Площадь арматуры, см^2")]
         public double As { get; set; }
     }
 }
