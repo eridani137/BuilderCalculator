@@ -200,13 +200,13 @@ namespace Calculators.Shared.Extensions
         {
             switch (reinforcementClass)
             {
-                case ReinforcementClass.A240: return 2141;
-                case ReinforcementClass.A400: return 3569;
-                case ReinforcementClass.A500: return 4436;
+                case ReinforcementClass.A240: return 2190;
+                case ReinforcementClass.A400: return 3620;
+                case ReinforcementClass.A500: return 4430;
                 case ReinforcementClass.A500SP: return 4589;
                 case ReinforcementClass.A600SP: return 5303;
                 case ReinforcementClass.AU500SP: return 4589;
-                case ReinforcementClass.B500: return 4436;
+                case ReinforcementClass.B500: return 4430;
                 case ReinforcementClass.A600:
                 case ReinforcementClass.A800:
                 case ReinforcementClass.A1000:
@@ -276,13 +276,13 @@ namespace Calculators.Shared.Extensions
         {
             switch (reinforcementClass)
             {
-                case ReinforcementClass.A240: return 2141;
-                case ReinforcementClass.A400: return 3568;
-                case ReinforcementClass.A500:
-                case ReinforcementClass.A500SP:
-                case ReinforcementClass.A600SP:
-                case ReinforcementClass.AU500SP: return 4077;
-                case ReinforcementClass.B500: return 3874;
+                case ReinforcementClass.A240: return 2190;
+                case ReinforcementClass.A400: return 3620;
+                case ReinforcementClass.A500: return 4080;
+                case ReinforcementClass.A500SP: return 4589;
+                case ReinforcementClass.A600SP: return 5303;
+                case ReinforcementClass.AU500SP: return 4589;
+                case ReinforcementClass.B500: return 4080;
                 case ReinforcementClass.A600:
                 case ReinforcementClass.A800:
                 case ReinforcementClass.A1000:
