@@ -15,6 +15,22 @@ namespace BuilderCalculator.KZH_05._1
             CalculateResult = new CalculateResult(this);
         }
 
+        public StrengthNormalCrossSectionOffCenterCompressedElement(double mx, double my, double n, double b, double h, double a, double ap, double @as, double asp, ConcreteClass concreteClass, ReinforcementClass reinforcementClass)
+        {
+            CalculateResult = new CalculateResult(this);
+            Mx = mx;
+            My = my;
+            N = n;
+            this.b = b;
+            this.h = h;
+            this.a = a;
+            this.ap = ap;
+            As = @as;
+            Asp = asp;
+            ConcreteClass = concreteClass;
+            ReinforcementClass = reinforcementClass;
+        }
+
         [InputParameter("Изгибающий момент Mx, кг·см")]
         public double Mx { get; set; } = 1500000.0; // 15.0·10^5
     

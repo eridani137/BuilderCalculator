@@ -15,6 +15,20 @@ namespace BuilderCalculator.KZH_06
             CalculateResult = new CalculateResult(this);
         }
 
+        public EstimatedAnchorageOverlapLengthReinforcement(int edition, int jointType, int stressState, double areaRatio, double diameter, double gammaBi, ConcreteClass concreteClass, ReinforcementClass reinforcementClass, bool isFullJoint)
+        {
+            CalculateResult = new CalculateResult(this);
+            Edition = edition;
+            JointType = jointType;
+            StressState = stressState;
+            AreaRatio = areaRatio;
+            Diameter = diameter;
+            GammaBi = gammaBi;
+            ConcreteClass = concreteClass;
+            ReinforcementClass = reinforcementClass;
+            IsFullJoint = isFullJoint;
+        }
+
         [InputParameter("Нормативное обоснование (0 - без изменений, 1 - изм.1)")]
         public int Edition { get; set; } = 0;
 
