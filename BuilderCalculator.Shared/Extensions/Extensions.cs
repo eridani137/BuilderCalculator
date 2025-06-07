@@ -167,6 +167,25 @@ namespace Calculators.Shared.Extensions
                     throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
             }
         }
+        
+        public static double GetRsw1(this ReinforcementClass reinforcementClass)
+        {
+            switch (reinforcementClass)
+            {
+                case ReinforcementClass.A240:
+                case ReinforcementClass.A400:
+                case ReinforcementClass.A500:
+                case ReinforcementClass.A500SP:
+                case ReinforcementClass.A600SP:
+                case ReinforcementClass.AU500SP:
+                case ReinforcementClass.B500:
+                case ReinforcementClass.A600:
+                case ReinforcementClass.A800:
+                case ReinforcementClass.A1000:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reinforcementClass), reinforcementClass, null);
+            }
+        }
 
         public static double GetRsc(this ReinforcementClass reinforcementClass)
         {
